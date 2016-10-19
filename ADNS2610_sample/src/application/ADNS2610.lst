@@ -1,0 +1,964 @@
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"ADNS2610.c"
+  23              	.Ltext0:
+  24              		.file 1 "ADNS2610.c"
+ 19479              		.align	1
+ 19480              		.thumb
+ 19481              		.thumb_func
+ 19483              	CLK_halfDelay:
+ 19484              	.LFB30:
+   0:ADNS2610.c    **** #include <string.h>
+   1:ADNS2610.c    **** #include <stdlib.h>
+   2:ADNS2610.c    **** #include "stm32f10x.h"
+   3:ADNS2610.c    **** #include "stm32f10x_conf.h"
+   4:ADNS2610.c    **** #include <stm32f10x_spi.h>
+   5:ADNS2610.c    **** 
+   6:ADNS2610.c    **** #include "global.h"
+   7:ADNS2610.c    **** 
+   8:ADNS2610.c    **** #ifdef ENABLE_ADNS2610_SRC
+   9:ADNS2610.c    **** 
+  10:ADNS2610.c    **** 
+  11:ADNS2610.c    **** /* Write operations, where data is going from the microcontroller to the ADNS-2610,
+  12:ADNS2610.c    ****  * is always initiated by the microcontroller and consists of two bytes.
+  13:ADNS2610.c    ****  * The first byte contains the address (seven bits) and has a “1” as its MSB
+  14:ADNS2610.c    ****  * to indicate data direction.
+  15:ADNS2610.c    ****  * The second byte contains the data. The transfer is synchronized by SCK.
+  16:ADNS2610.c    ****  * The microcontroller changes SDIO on falling edges of SCK.
+  17:ADNS2610.c    ****  * The ADNS-2610 reads SDIO on rising edges of SCK.
+  18:ADNS2610.c    ****  */
+  19:ADNS2610.c    **** 
+  20:ADNS2610.c    **** //-----------------------------------------------------------------------------------------
+  21:ADNS2610.c    **** static volatile uint8_t imageBuffer[18 * 18];
+  22:ADNS2610.c    **** 
+  23:ADNS2610.c    **** #define ADNS2610_CLK_PORT GPIOA
+  24:ADNS2610.c    **** #define ADNS2610_CLK_PIN GPIO_Pin_5
+  25:ADNS2610.c    **** 
+  26:ADNS2610.c    **** #define ADNS2610_SDIO_PORT GPIOB
+  27:ADNS2610.c    **** #define ADNS2610_SDIO_PIN GPIO_Pin_11
+  28:ADNS2610.c    **** 
+  29:ADNS2610.c    **** #define ADNS2610_SDIO_CR_REGISTER (ADNS2610_SDIO_PORT->CRH)
+  30:ADNS2610.c    **** #define ADNS2610_SDIO_MASK (0xF << (3*4))
+  31:ADNS2610.c    **** #define ADNS2610_SDIO_MASK_IN (0x4 << (3*4)) //  '01' Floating input (reset state)      '00' Input 
+  32:ADNS2610.c    **** #define ADNS2610_SDIO_MASK_OUT (0x3 << (3*4)) // '00' General purpose output push-pull, '11' 50MHz
+  33:ADNS2610.c    **** 
+  34:ADNS2610.c    **** // STM32F103 SPI can't be used for ADNS2610:
+  35:ADNS2610.c    **** //		a. (MSTR=1, BIDIMODE=1, BIDIOE=0 can't stop SCK in time)
+  36:ADNS2610.c    **** //		b. PA7 is not 5V FT
+  37:ADNS2610.c    **** void ADNS2610_init() {
+  38:ADNS2610.c    **** 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_SPI1, ENABLE);
+  39:ADNS2610.c    **** 
+  40:ADNS2610.c    **** 	GPIO_InitTypeDef GPIO_InitStructure;
+  41:ADNS2610.c    **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  42:ADNS2610.c    **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+  43:ADNS2610.c    **** 	GPIO_InitStructure.GPIO_Pin = ADNS2610_CLK_PIN;
+  44:ADNS2610.c    **** 	GPIO_Init(ADNS2610_CLK_PORT, &GPIO_InitStructure);
+  45:ADNS2610.c    **** 	GPIO_InitStructure.GPIO_Pin = ADNS2610_SDIO_PIN;
+  46:ADNS2610.c    **** 	GPIO_Init(ADNS2610_SDIO_PORT, &GPIO_InitStructure);
+  47:ADNS2610.c    **** 	ADNS2610_CLK_PORT->BSRR = ADNS2610_CLK_PIN; // = 1
+  48:ADNS2610.c    **** 
+  49:ADNS2610.c    **** 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+  50:ADNS2610.c    **** 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
+  51:ADNS2610.c    **** 	TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
+  52:ADNS2610.c    **** 	TIM_TimeBaseStructure.TIM_Prescaler = 72-1;
+  53:ADNS2610.c    **** 	TIM_TimeBaseStructure.TIM_Period = 0xFFFF;
+  54:ADNS2610.c    **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+  55:ADNS2610.c    **** 	TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
+  56:ADNS2610.c    **** }
+  57:ADNS2610.c    **** 
+  58:ADNS2610.c    **** //=========================================================================================
+  59:ADNS2610.c    **** void ADNS2610_delay() {
+  60:ADNS2610.c    **** 	ADNS2610_delayUs(110); // >= 100us
+  61:ADNS2610.c    **** }
+  62:ADNS2610.c    **** 
+  63:ADNS2610.c    **** void ADNS2610_delayUs(int16_t delay) {
+  64:ADNS2610.c    **** 	TIM_Cmd(TIM2, ENABLE);
+  65:ADNS2610.c    **** 	TIM_SetCounter(TIM2, 0);
+  66:ADNS2610.c    **** 	while(TIM_GetCounter(TIM2) < delay);
+  67:ADNS2610.c    **** 	TIM_Cmd(TIM2, DISABLE);
+  68:ADNS2610.c    **** }
+  69:ADNS2610.c    **** 
+  70:ADNS2610.c    **** static void CLK_halfDelay() { // >= 2.5 us 4Mhz
+ 19485              		.loc 1 71 0
+ 19486              		@ args = 0, pretend = 0, frame = 8
+ 19487              		@ frame_needed = 0, uses_anonymous_args = 0
+ 19488              		@ link register save eliminated.
+ 19489 0000 82B0     		sub	sp, sp, #8
+ 19490              	.LCFI0:
+  71:ADNS2610.c    **** 	 uint32_t volatile tmp = 100;
+ 19491              		.loc 1 72 0
+ 19492 0002 6423     		movs	r3, #100
+ 19493 0004 0193     		str	r3, [sp, #4]
+ 19494              	.LVL0:
+ 19495              	.L2:
+  72:ADNS2610.c    **** 	 while( tmp-- ) ;
+ 19496              		.loc 1 73 0 discriminator 1
+ 19497 0006 0198     		ldr	r0, [sp, #4]
+ 19498 0008 421E     		subs	r2, r0, #1
+ 19499              	.LVL1:
+ 19500 000a 0192     		str	r2, [sp, #4]
+ 19501              	.LVL2:
+ 19502 000c 0028     		cmp	r0, #0
+ 19503 000e FAD1     		bne	.L2
+  73:ADNS2610.c    **** }
+ 19504              		.loc 1 74 0
+ 19505 0010 02B0     		add	sp, sp, #8
+ 19506 0012 7047     		bx	lr
+ 19507              	.LFE30:
+ 19509              		.section	.text.sendByte,"ax",%progbits
+ 19510              		.align	1
+ 19511              		.thumb
+ 19512              		.thumb_func
+ 19514              	sendByte:
+ 19515              	.LFB31:
+  74:ADNS2610.c    **** 
+  75:ADNS2610.c    **** static inline void sendByte(uint8_t b) {
+ 19516              		.loc 1 76 0
+ 19517              		@ args = 0, pretend = 0, frame = 8
+ 19518              		@ frame_needed = 0, uses_anonymous_args = 0
+ 19519              	.LVL3:
+ 19520 0000 F7B5     		push	{r0, r1, r2, r4, r5, r6, r7, lr}
+ 19521              	.LCFI1:
+  76:ADNS2610.c    **** 	uint8_t msk  = 0x80;
+  77:ADNS2610.c    **** 	do {
+  78:ADNS2610.c    **** 		ADNS2610_CLK_PORT->BRR = ADNS2610_CLK_PIN; // = 0
+  79:ADNS2610.c    **** 		if(b & msk) {
+  80:ADNS2610.c    **** 			ADNS2610_SDIO_PORT->BSRR = ADNS2610_SDIO_PIN; // = 1
+  81:ADNS2610.c    **** 		} else {
+  82:ADNS2610.c    **** 			ADNS2610_SDIO_PORT->BRR = ADNS2610_SDIO_PIN; // = 0
+ 19522              		.loc 1 83 0
+ 19523 0002 0F4F     		ldr	r7, .L10
+  76:ADNS2610.c    **** 	uint8_t msk  = 0x80;
+ 19524              		.loc 1 76 0
+ 19525 0004 0025     		movs	r5, #0
+  77:ADNS2610.c    **** 	uint8_t msk  = 0x80;
+ 19526              		.loc 1 77 0
+ 19527 0006 8024     		movs	r4, #128
+  79:ADNS2610.c    **** 		ADNS2610_CLK_PORT->BRR = ADNS2610_CLK_PIN; // = 0
+ 19528              		.loc 1 79 0
+ 19529 0008 2023     		movs	r3, #32
+ 19530              		.loc 1 83 0
+ 19531 000a 4FF40066 		mov	r6, #2048
+ 19532              	.LVL4:
+ 19533              	.L8:
+  79:ADNS2610.c    **** 		ADNS2610_CLK_PORT->BRR = ADNS2610_CLK_PIN; // = 0
+ 19534              		.loc 1 79 0
+ 19535 000e DFF834C0 		ldr	ip, .L10+4
+  80:ADNS2610.c    **** 		if(b & msk) {
+ 19536              		.loc 1 80 0
+ 19537 0012 0442     		tst	r4, r0
+  79:ADNS2610.c    **** 		ADNS2610_CLK_PORT->BRR = ADNS2610_CLK_PIN; // = 0
+ 19538              		.loc 1 79 0
+ 19539 0014 CCF81430 		str	r3, [ip, #20]
+  81:ADNS2610.c    **** 			ADNS2610_SDIO_PORT->BSRR = ADNS2610_SDIO_PIN; // = 1
+ 19540              		.loc 1 81 0
+ 19541 0018 14BF     		ite	ne
+ 19542 001a 3E61     		strne	r6, [r7, #16]
+ 19543              		.loc 1 83 0
+ 19544 001c 7E61     		streq	r6, [r7, #20]
+  83:ADNS2610.c    **** 		}
+  84:ADNS2610.c    **** 		CLK_halfDelay();
+ 19545              		.loc 1 85 0
+ 19546 001e 0190     		str	r0, [sp, #4]
+ 19547 0020 0093     		str	r3, [sp, #0]
+ 19548 0022 FFF7FEFF 		bl	CLK_halfDelay
+  85:ADNS2610.c    **** 		ADNS2610_CLK_PORT->BSRR = ADNS2610_CLK_PIN; // = 1
+ 19549              		.loc 1 86 0
+ 19550 0026 074A     		ldr	r2, .L10+4
+ 19551 0028 2021     		movs	r1, #32
+ 19552 002a 1161     		str	r1, [r2, #16]
+  86:ADNS2610.c    **** 		CLK_halfDelay();
+  87:ADNS2610.c    **** 		msk = msk >> 1;
+ 19553              		.loc 1 88 0
+ 19554 002c 0135     		adds	r5, r5, #1
+  87:ADNS2610.c    **** 		msk = msk >> 1;
+ 19555              		.loc 1 87 0
+ 19556 002e FFF7FEFF 		bl	CLK_halfDelay
+ 19557              		.loc 1 88 0
+ 19558 0032 6408     		lsrs	r4, r4, #1
+ 19559              	.LVL5:
+  88:ADNS2610.c    **** 	} while(msk != 0);
+ 19560              		.loc 1 89 0
+ 19561 0034 082D     		cmp	r5, #8
+ 19562 0036 0198     		ldr	r0, [sp, #4]
+ 19563 0038 009B     		ldr	r3, [sp, #0]
+ 19564 003a E8D1     		bne	.L8
+  89:ADNS2610.c    **** }
+ 19565              		.loc 1 90 0
+ 19566 003c FEBD     		pop	{r1, r2, r3, r4, r5, r6, r7, pc}
+ 19567              	.L11:
+ 19568 003e 00BF     		.align	2
+ 19569              	.L10:
+ 19570 0040 000C0140 		.word	1073810432
+ 19571 0044 00080140 		.word	1073809408
+ 19572              	.LFE31:
+ 19574              		.section	.text.ADNS2610_init,"ax",%progbits
+ 19575              		.align	1
+ 19576              		.global	ADNS2610_init
+ 19577              		.thumb
+ 19578              		.thumb_func
+ 19580              	ADNS2610_init:
+ 19581              	.LFB27:
+  38:ADNS2610.c    **** void ADNS2610_init() {
+ 19582              		.loc 1 38 0
+ 19583              		@ args = 0, pretend = 0, frame = 16
+ 19584              		@ frame_needed = 0, uses_anonymous_args = 0
+ 19585 0000 7FB5     		push	{r0, r1, r2, r3, r4, r5, r6, lr}
+ 19586              	.LCFI2:
+  39:ADNS2610.c    **** 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_SPI1, ENABLE);
+ 19587              		.loc 1 39 0
+ 19588 0002 0121     		movs	r1, #1
+  42:ADNS2610.c    **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 19589              		.loc 1 42 0
+ 19590 0004 0325     		movs	r5, #3
+  39:ADNS2610.c    **** 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_SPI1, ENABLE);
+ 19591              		.loc 1 39 0
+ 19592 0006 41F20400 		movw	r0, #4100
+ 19593 000a FFF7FEFF 		bl	RCC_APB2PeriphClockCmd
+  42:ADNS2610.c    **** 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+ 19594              		.loc 1 42 0
+ 19595 000e 8DF80E50 		strb	r5, [sp, #14]
+  43:ADNS2610.c    **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 19596              		.loc 1 43 0
+ 19597 0012 0D35     		adds	r5, r5, #13
+  44:ADNS2610.c    **** 	GPIO_InitStructure.GPIO_Pin = ADNS2610_CLK_PIN;
+ 19598              		.loc 1 44 0
+ 19599 0014 0DEB0504 		add	r4, sp, r5
+  43:ADNS2610.c    **** 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+ 19600              		.loc 1 43 0
+ 19601 0018 8DF80F50 		strb	r5, [sp, #15]
+  44:ADNS2610.c    **** 	GPIO_InitStructure.GPIO_Pin = ADNS2610_CLK_PIN;
+ 19602              		.loc 1 44 0
+ 19603 001c 2026     		movs	r6, #32
+  45:ADNS2610.c    **** 	GPIO_Init(ADNS2610_CLK_PORT, &GPIO_InitStructure);
+ 19604              		.loc 1 45 0
+ 19605 001e 144D     		ldr	r5, .L13
+  44:ADNS2610.c    **** 	GPIO_InitStructure.GPIO_Pin = ADNS2610_CLK_PIN;
+ 19606              		.loc 1 44 0
+ 19607 0020 24F8046D 		strh	r6, [r4, #-4]!	@ movhi
+  45:ADNS2610.c    **** 	GPIO_Init(ADNS2610_CLK_PORT, &GPIO_InitStructure);
+ 19608              		.loc 1 45 0
+ 19609 0024 2846     		mov	r0, r5
+ 19610 0026 2146     		mov	r1, r4
+ 19611 0028 FFF7FEFF 		bl	GPIO_Init
+  46:ADNS2610.c    **** 	GPIO_InitStructure.GPIO_Pin = ADNS2610_SDIO_PIN;
+ 19612              		.loc 1 46 0
+ 19613 002c 4FF40062 		mov	r2, #2048	@ movhi
+  47:ADNS2610.c    **** 	GPIO_Init(ADNS2610_SDIO_PORT, &GPIO_InitStructure);
+ 19614              		.loc 1 47 0
+ 19615 0030 2146     		mov	r1, r4
+ 19616 0032 1048     		ldr	r0, .L13+4
+  46:ADNS2610.c    **** 	GPIO_InitStructure.GPIO_Pin = ADNS2610_SDIO_PIN;
+ 19617              		.loc 1 46 0
+ 19618 0034 ADF80C20 		strh	r2, [sp, #12]	@ movhi
+  47:ADNS2610.c    **** 	GPIO_Init(ADNS2610_SDIO_PORT, &GPIO_InitStructure);
+ 19619              		.loc 1 47 0
+ 19620 0038 FFF7FEFF 		bl	GPIO_Init
+  50:ADNS2610.c    **** 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+ 19621              		.loc 1 50 0
+ 19622 003c 0120     		movs	r0, #1
+ 19623 003e 0146     		mov	r1, r0
+  48:ADNS2610.c    **** 	ADNS2610_CLK_PORT->BSRR = ADNS2610_CLK_PIN; // = 1
+ 19624              		.loc 1 48 0
+ 19625 0040 2E61     		str	r6, [r5, #16]
+  50:ADNS2610.c    **** 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+ 19626              		.loc 1 50 0
+ 19627 0042 FFF7FEFF 		bl	RCC_APB1PeriphClockCmd
+  52:ADNS2610.c    **** 	TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
+ 19628              		.loc 1 52 0
+ 19629 0046 6846     		mov	r0, sp
+ 19630 0048 FFF7FEFF 		bl	TIM_TimeBaseStructInit
+  53:ADNS2610.c    **** 	TIM_TimeBaseStructure.TIM_Prescaler = 72-1;
+ 19631              		.loc 1 53 0
+ 19632 004c 4721     		movs	r1, #71
+  54:ADNS2610.c    **** 	TIM_TimeBaseStructure.TIM_Period = 0xFFFF;
+ 19633              		.loc 1 54 0
+ 19634 004e 4FF0FF30 		mov	r0, #-1	@ movhi
+  53:ADNS2610.c    **** 	TIM_TimeBaseStructure.TIM_Prescaler = 72-1;
+ 19635              		.loc 1 53 0
+ 19636 0052 ADF80010 		strh	r1, [sp, #0]	@ movhi
+  54:ADNS2610.c    **** 	TIM_TimeBaseStructure.TIM_Period = 0xFFFF;
+ 19637              		.loc 1 54 0
+ 19638 0056 ADF80400 		strh	r0, [sp, #4]	@ movhi
+  55:ADNS2610.c    **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+ 19639              		.loc 1 55 0
+ 19640 005a 0023     		movs	r3, #0
+  56:ADNS2610.c    **** 	TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
+ 19641              		.loc 1 56 0
+ 19642 005c 4FF08040 		mov	r0, #1073741824
+ 19643 0060 6946     		mov	r1, sp
+  52:ADNS2610.c    **** 	TIM_TimeBaseStructInit(&TIM_TimeBaseStructure);
+ 19644              		.loc 1 52 0
+ 19645 0062 6C46     		mov	r4, sp
+  55:ADNS2610.c    **** 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+ 19646              		.loc 1 55 0
+ 19647 0064 ADF80230 		strh	r3, [sp, #2]	@ movhi
+  56:ADNS2610.c    **** 	TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
+ 19648              		.loc 1 56 0
+ 19649 0068 FFF7FEFF 		bl	TIM_TimeBaseInit
+  57:ADNS2610.c    **** }
+ 19650              		.loc 1 57 0
+ 19651 006c 7FBD     		pop	{r0, r1, r2, r3, r4, r5, r6, pc}
+ 19652              	.L14:
+ 19653 006e 00BF     		.align	2
+ 19654              	.L13:
+ 19655 0070 00080140 		.word	1073809408
+ 19656 0074 000C0140 		.word	1073810432
+ 19657              	.LFE27:
+ 19659              		.section	.text.ADNS2610_delayUs,"ax",%progbits
+ 19660              		.align	1
+ 19661              		.global	ADNS2610_delayUs
+ 19662              		.thumb
+ 19663              		.thumb_func
+ 19665              	ADNS2610_delayUs:
+ 19666              	.LFB29:
+  64:ADNS2610.c    **** void ADNS2610_delayUs(int16_t delay) {
+ 19667              		.loc 1 64 0
+ 19668              		@ args = 0, pretend = 0, frame = 0
+ 19669              		@ frame_needed = 0, uses_anonymous_args = 0
+ 19670              	.LVL6:
+ 19671 0000 10B5     		push	{r4, lr}
+ 19672              	.LCFI3:
+  65:ADNS2610.c    **** 	TIM_Cmd(TIM2, ENABLE);
+ 19673              		.loc 1 65 0
+ 19674 0002 0121     		movs	r1, #1
+  64:ADNS2610.c    **** void ADNS2610_delayUs(int16_t delay) {
+ 19675              		.loc 1 64 0
+ 19676 0004 0446     		mov	r4, r0
+  65:ADNS2610.c    **** 	TIM_Cmd(TIM2, ENABLE);
+ 19677              		.loc 1 65 0
+ 19678 0006 4FF08040 		mov	r0, #1073741824
+ 19679              	.LVL7:
+ 19680 000a FFF7FEFF 		bl	TIM_Cmd
+  66:ADNS2610.c    **** 	TIM_SetCounter(TIM2, 0);
+ 19681              		.loc 1 66 0
+ 19682 000e 4FF08040 		mov	r0, #1073741824
+ 19683 0012 0021     		movs	r1, #0
+ 19684 0014 FFF7FEFF 		bl	TIM_SetCounter
+ 19685              	.L16:
+  67:ADNS2610.c    **** 	while(TIM_GetCounter(TIM2) < delay);
+ 19686              		.loc 1 67 0 discriminator 1
+ 19687 0018 4FF08040 		mov	r0, #1073741824
+ 19688 001c FFF7FEFF 		bl	TIM_GetCounter
+ 19689 0020 A042     		cmp	r0, r4
+ 19690 0022 F9DB     		blt	.L16
+  68:ADNS2610.c    **** 	TIM_Cmd(TIM2, DISABLE);
+ 19691              		.loc 1 68 0
+ 19692 0024 4FF08040 		mov	r0, #1073741824
+ 19693 0028 0021     		movs	r1, #0
+ 19694 002a FFF7FEFF 		bl	TIM_Cmd
+  69:ADNS2610.c    **** }
+ 19695              		.loc 1 69 0
+ 19696 002e 10BD     		pop	{r4, pc}
+ 19697              	.LFE29:
+ 19699              		.section	.text.ADNS2610_delay,"ax",%progbits
+ 19700              		.align	1
+ 19701              		.global	ADNS2610_delay
+ 19702              		.thumb
+ 19703              		.thumb_func
+ 19705              	ADNS2610_delay:
+ 19706              	.LFB28:
+  60:ADNS2610.c    **** void ADNS2610_delay() {
+ 19707              		.loc 1 60 0
+ 19708              		@ args = 0, pretend = 0, frame = 0
+ 19709              		@ frame_needed = 0, uses_anonymous_args = 0
+ 19710 0000 08B5     		push	{r3, lr}
+ 19711              	.LCFI4:
+  61:ADNS2610.c    **** 	ADNS2610_delayUs(110); // >= 100us
+ 19712              		.loc 1 61 0
+ 19713 0002 6E20     		movs	r0, #110
+ 19714 0004 FFF7FEFF 		bl	ADNS2610_delayUs
+  62:ADNS2610.c    **** }
+ 19715              		.loc 1 62 0
+ 19716 0008 08BD     		pop	{r3, pc}
+ 19717              	.LFE28:
+ 19719              		.section	.text.ANDS2610_setRegister,"ax",%progbits
+ 19720              		.align	1
+ 19721              		.global	ANDS2610_setRegister
+ 19722              		.thumb
+ 19723              		.thumb_func
+ 19725              	ANDS2610_setRegister:
+ 19726              	.LFB33:
+  90:ADNS2610.c    **** 
+  91:ADNS2610.c    **** static inline uint8_t getByte() {
+  92:ADNS2610.c    **** 	uint8_t msk  = 0x80;
+  93:ADNS2610.c    **** 	uint8_t b = 0;
+  94:ADNS2610.c    **** 	do {
+  95:ADNS2610.c    **** 		ADNS2610_CLK_PORT->BRR = ADNS2610_CLK_PIN; // = 0
+  96:ADNS2610.c    **** 		CLK_halfDelay();
+  97:ADNS2610.c    **** 		if(ADNS2610_SDIO_PORT->IDR & ADNS2610_SDIO_PIN) {
+  98:ADNS2610.c    **** 			b |= msk;
+  99:ADNS2610.c    **** 		}
+ 100:ADNS2610.c    **** 		ADNS2610_CLK_PORT->BSRR = ADNS2610_CLK_PIN; // = 1
+ 101:ADNS2610.c    **** 		CLK_halfDelay();
+ 102:ADNS2610.c    **** 		msk = msk >> 1;
+ 103:ADNS2610.c    **** 	} while(msk != 0);
+ 104:ADNS2610.c    **** 	return b;
+ 105:ADNS2610.c    **** }
+ 106:ADNS2610.c    **** 
+ 107:ADNS2610.c    **** void ANDS2610_setRegister(uint8_t regAddress, uint8_t data) {
+ 19727              		.loc 1 108 0
+ 19728              		@ args = 0, pretend = 0, frame = 0
+ 19729              		@ frame_needed = 0, uses_anonymous_args = 0
+ 19730              	.LVL8:
+ 19731 0000 10B5     		push	{r4, lr}
+ 19732              	.LCFI5:
+ 108:ADNS2610.c    **** 	sendByte(regAddress | 0x80);
+ 19733              		.loc 1 109 0
+ 19734 0002 40F08000 		orr	r0, r0, #128
+ 19735              	.LVL9:
+ 108:ADNS2610.c    **** 	sendByte(regAddress | 0x80);
+ 19736              		.loc 1 108 0
+ 19737 0006 0C46     		mov	r4, r1
+ 19738              		.loc 1 109 0
+ 19739 0008 FFF7FEFF 		bl	sendByte
+ 19740              	.LVL10:
+ 109:ADNS2610.c    **** 	sendByte(data);
+ 19741              		.loc 1 110 0
+ 19742 000c 2046     		mov	r0, r4
+ 19743 000e FFF7FEFF 		bl	sendByte
+ 110:ADNS2610.c    **** 	// There are minimum timing requirements between read and write commands on the serial port.
+ 111:ADNS2610.c    **** 	ADNS2610_delay(); // delay for next operation
+ 19744              		.loc 1 112 0
+ 19745 0012 FFF7FEFF 		bl	ADNS2610_delay
+ 112:ADNS2610.c    **** }
+ 19746              		.loc 1 113 0
+ 19747 0016 10BD     		pop	{r4, pc}
+ 19748              	.LFE33:
+ 19750              		.section	.text.ANDS2610_getRegister,"ax",%progbits
+ 19751              		.align	1
+ 19752              		.global	ANDS2610_getRegister
+ 19753              		.thumb
+ 19754              		.thumb_func
+ 19756              	ANDS2610_getRegister:
+ 19757              	.LFB34:
+ 113:ADNS2610.c    **** 
+ 114:ADNS2610.c    **** uint8_t ANDS2610_getRegister(uint8_t regAddress) {
+ 19758              		.loc 1 115 0
+ 19759              		@ args = 0, pretend = 0, frame = 0
+ 19760              		@ frame_needed = 0, uses_anonymous_args = 0
+ 19761              	.LVL11:
+ 19762 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 19763              	.LCFI6:
+ 115:ADNS2610.c    **** 	sendByte(regAddress);
+ 116:ADNS2610.c    **** 	ADNS2610_SDIO_CR_REGISTER = (ADNS2610_SDIO_CR_REGISTER & (~ADNS2610_SDIO_MASK)) | ADNS2610_SDIO_MA
+ 19764              		.loc 1 117 0
+ 19765 0002 174E     		ldr	r6, .L24
+ 116:ADNS2610.c    **** 	ADNS2610_SDIO_CR_REGISTER = (ADNS2610_SDIO_CR_REGISTER & (~ADNS2610_SDIO_MASK)) | ADNS2610_SDIO_MA
+ 19766              		.loc 1 116 0
+ 19767 0004 FFF7FEFF 		bl	sendByte
+ 19768              	.LVL12:
+ 19769              		.loc 1 117 0
+ 19770 0008 7168     		ldr	r1, [r6, #4]
+ 117:ADNS2610.c    **** 	ADNS2610_delay();
+ 19771              		.loc 1 118 0
+ 19772 000a 0024     		movs	r4, #0
+ 117:ADNS2610.c    **** 	ADNS2610_delay();
+ 19773              		.loc 1 117 0
+ 19774 000c 21F47040 		bic	r0, r1, #61440
+ 19775 0010 40F48043 		orr	r3, r0, #16384
+ 19776 0014 7360     		str	r3, [r6, #4]
+ 19777              		.loc 1 118 0
+ 19778 0016 FFF7FEFF 		bl	ADNS2610_delay
+ 19779              	.LVL13:
+  94:ADNS2610.c    **** 	uint8_t b = 0;
+ 19780              		.loc 1 94 0
+ 19781 001a 2546     		mov	r5, r4
+  93:ADNS2610.c    **** 	uint8_t msk  = 0x80;
+ 19782              		.loc 1 93 0
+ 19783 001c 8027     		movs	r7, #128
+ 19784              	.LVL14:
+ 19785              	.L22:
+ 19786              	.LBB4:
+ 19787              	.LBB5:
+  96:ADNS2610.c    **** 		ADNS2610_CLK_PORT->BRR = ADNS2610_CLK_PIN; // = 0
+ 19788              		.loc 1 96 0
+ 19789 001e DFF844E0 		ldr	lr, .L24+4
+ 19790 0022 2020     		movs	r0, #32
+ 19791 0024 CEF81400 		str	r0, [lr, #20]
+  97:ADNS2610.c    **** 		CLK_halfDelay();
+ 19792              		.loc 1 97 0
+ 19793 0028 FFF7FEFF 		bl	CLK_halfDelay
+  98:ADNS2610.c    **** 		if(ADNS2610_SDIO_PORT->IDR & ADNS2610_SDIO_PIN) {
+ 19794              		.loc 1 98 0
+ 19795 002c D6F808C0 		ldr	ip, [r6, #8]
+ 101:ADNS2610.c    **** 		ADNS2610_CLK_PORT->BSRR = ADNS2610_CLK_PIN; // = 1
+ 19796              		.loc 1 101 0
+ 19797 0030 0C4A     		ldr	r2, .L24+4
+  98:ADNS2610.c    **** 		if(ADNS2610_SDIO_PORT->IDR & ADNS2610_SDIO_PIN) {
+ 19798              		.loc 1 98 0
+ 19799 0032 1CF4006F 		tst	ip, #2048
+  99:ADNS2610.c    **** 			b |= msk;
+ 19800              		.loc 1 99 0
+ 19801 0036 18BF     		it	ne
+ 19802 0038 3D43     		orrne	r5, r7, r5
+ 19803              	.LVL15:
+ 101:ADNS2610.c    **** 		ADNS2610_CLK_PORT->BSRR = ADNS2610_CLK_PIN; // = 1
+ 19804              		.loc 1 101 0
+ 19805 003a 2023     		movs	r3, #32
+ 19806 003c 1361     		str	r3, [r2, #16]
+ 103:ADNS2610.c    **** 		msk = msk >> 1;
+ 19807              		.loc 1 103 0
+ 19808 003e 0134     		adds	r4, r4, #1
+ 102:ADNS2610.c    **** 		CLK_halfDelay();
+ 19809              		.loc 1 102 0
+ 19810 0040 FFF7FEFF 		bl	CLK_halfDelay
+ 103:ADNS2610.c    **** 		msk = msk >> 1;
+ 19811              		.loc 1 103 0
+ 19812 0044 7F08     		lsrs	r7, r7, #1
+ 19813              	.LVL16:
+ 104:ADNS2610.c    **** 	} while(msk != 0);
+ 19814              		.loc 1 104 0
+ 19815 0046 082C     		cmp	r4, #8
+ 19816 0048 E9D1     		bne	.L22
+ 19817              	.LBE5:
+ 19818              	.LBE4:
+ 118:ADNS2610.c    **** 	uint8_t b = getByte();
+ 119:ADNS2610.c    **** 	ADNS2610_SDIO_CR_REGISTER = (ADNS2610_SDIO_CR_REGISTER & (~ADNS2610_SDIO_MASK)) | ADNS2610_SDIO_MA
+ 19819              		.loc 1 120 0
+ 19820 004a 054B     		ldr	r3, .L24
+ 19821              	.LVL17:
+ 120:ADNS2610.c    **** 	return b;
+ 121:ADNS2610.c    **** }
+ 19822              		.loc 1 122 0
+ 19823 004c 2846     		mov	r0, r5
+ 120:ADNS2610.c    **** 	return b;
+ 19824              		.loc 1 120 0
+ 19825 004e D3F804C0 		ldr	ip, [r3, #4]
+ 19826 0052 2CF47042 		bic	r2, ip, #61440
+ 19827 0056 42F44051 		orr	r1, r2, #12288
+ 19828 005a 5960     		str	r1, [r3, #4]
+ 19829              		.loc 1 122 0
+ 19830 005c F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 19831              	.L25:
+ 19832 005e 00BF     		.align	2
+ 19833              	.L24:
+ 19834 0060 000C0140 		.word	1073810432
+ 19835 0064 00080140 		.word	1073809408
+ 19836              	.LFE34:
+ 19838              		.section	.text.ADNS2610_setAwake,"ax",%progbits
+ 19839              		.align	1
+ 19840              		.global	ADNS2610_setAwake
+ 19841              		.thumb
+ 19842              		.thumb_func
+ 19844              	ADNS2610_setAwake:
+ 19845              	.LFB35:
+ 122:ADNS2610.c    **** 
+ 123:ADNS2610.c    **** // first reset should be done after "Serial Port Transaction Timer = 90ms" delay from SMT32 start!
+ 124:ADNS2610.c    **** void ADNS2610_setAwake() {
+ 19846              		.loc 1 125 0
+ 19847              		@ args = 0, pretend = 0, frame = 0
+ 19848              		@ frame_needed = 0, uses_anonymous_args = 0
+ 19849 0000 08B5     		push	{r3, lr}
+ 19850              	.LCFI7:
+ 125:ADNS2610.c    **** 	// "Configuration" address = 0;
+ 126:ADNS2610.c    **** 	// data: 0x01 - Always awake
+ 127:ADNS2610.c    **** 	ANDS2610_setRegister(0x00, 0x01);
+ 19851              		.loc 1 128 0
+ 19852 0002 0020     		movs	r0, #0
+ 19853 0004 0121     		movs	r1, #1
+ 19854 0006 FFF7FEFF 		bl	ANDS2610_setRegister
+ 128:ADNS2610.c    **** }
+ 19855              		.loc 1 129 0
+ 19856 000a 08BD     		pop	{r3, pc}
+ 19857              	.LFE35:
+ 19859              		.section	.text.ADNS2610_getImage,"ax",%progbits
+ 19860              		.align	1
+ 19861              		.global	ADNS2610_getImage
+ 19862              		.thumb
+ 19863              		.thumb_func
+ 19865              	ADNS2610_getImage:
+ 19866              	.LFB36:
+ 129:ADNS2610.c    **** 
+ 130:ADNS2610.c    **** // Time per 18x18 image scan:
+ 131:ADNS2610.c    **** //		0.214s 1008..1012 lostCnt(ADNS2610_delay = 110us, CLK_halfDelay = 8)
+ 132:ADNS2610.c    **** //		0.214s 691..701 lostCnt  (ADNS2610_delay = 100us, CLK_halfDelay = 20)
+ 133:ADNS2610.c    **** //		0.214s 517..520 lostCnt  (ADNS2610_delay = 100us, CLK_halfDelay = 30)
+ 134:ADNS2610.c    **** //		0.214s 377..380 lostCnt  (ADNS2610_delay = 150us, CLK_halfDelay = 30)
+ 135:ADNS2610.c    **** //		0.214s 52..54 lostCnt    (ADNS2610_delay = 100us, CLK_halfDelay = 100)
+ 136:ADNS2610.c    **** //		0.214s 39..41 lostCnt    (ADNS2610_delay = 120us, CLK_halfDelay = 100)
+ 137:ADNS2610.c    **** //		0.218s  0..1  lostCnt    (ADNS2610_delay = 200us, CLK_halfDelay = 100)
+ 138:ADNS2610.c    **** // Time per 18x1 image scan: 0.012 sec
+ 139:ADNS2610.c    **** uint8_t *ADNS2610_getImage(uint32_t sz, int *lost) {
+ 19867              		.loc 1 140 0
+ 19868              		@ args = 0, pretend = 0, frame = 16
+ 19869              		@ frame_needed = 0, uses_anonymous_args = 0
+ 19870              	.LVL18:
+ 19871 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 19872              	.LCFI8:
+ 19873 0002 85B0     		sub	sp, sp, #20
+ 19874              	.LCFI9:
+ 19875              	.LVL19:
+ 19876              		.loc 1 140 0
+ 19877 0004 0391     		str	r1, [sp, #12]
+ 19878              	.LVL20:
+ 19879              	.LBB6:
+ 140:ADNS2610.c    ****  if(sz > sizeof(imageBuffer)) sz = sizeof(imageBuffer);
+ 141:ADNS2610.c    ****  ANDS2610_setRegister(0x08, 0x2A);
+ 142:ADNS2610.c    ****  uint32_t n = 0;
+ 143:ADNS2610.c    ****  int lostCnt = 0;
+ 144:ADNS2610.c    ****  for(int i = 0; i < 10000; i++) {
+ 145:ADNS2610.c    **** 	 uint8_t b = ANDS2610_getRegister(0x08);
+ 146:ADNS2610.c    **** 	 if((b & 0x40) == 0) {
+ 147:ADNS2610.c    **** 		 lostCnt++;
+ 148:ADNS2610.c    **** 		 continue;
+ 149:ADNS2610.c    **** 	 }
+ 150:ADNS2610.c    **** 	 imageBuffer[n++] = b & 0xBF;
+ 151:ADNS2610.c    **** 	 if(n == sz) {
+ 152:ADNS2610.c    **** 		 *lost = lostCnt;
+ 153:ADNS2610.c    **** 		 return (uint8_t*)(&imageBuffer[0]);
+ 154:ADNS2610.c    **** 	 }
+ 155:ADNS2610.c    ****  }
+ 156:ADNS2610.c    ****  return NULL;
+ 19880              		.loc 1 157 0
+ 19881 0006 B0F5A27F 		cmp	r0, #324
+ 19882 000a 34BF     		ite	cc
+ 19883 000c 0446     		movcc	r4, r0
+ 19884 000e 4FF4A274 		movcs	r4, #324
+ 19885              	.LVL21:
+ 19886              	.LBE6:
+ 142:ADNS2610.c    ****  ANDS2610_setRegister(0x08, 0x2A);
+ 19887              		.loc 1 142 0
+ 19888 0012 2A21     		movs	r1, #42
+ 19889              	.LVL22:
+ 19890 0014 0820     		movs	r0, #8
+ 19891 0016 FFF7FEFF 		bl	ANDS2610_setRegister
+ 19892              	.LVL23:
+ 145:ADNS2610.c    ****  for(int i = 0; i < 10000; i++) {
+ 19893              		.loc 1 145 0
+ 19894 001a 0025     		movs	r5, #0
+ 19895              	.LBB9:
+ 19896              	.LBB7:
+ 151:ADNS2610.c    **** 	 imageBuffer[n++] = b & 0xBF;
+ 19897              		.loc 1 151 0
+ 19898 001c 104A     		ldr	r2, .L33
+ 19899              	.LBE7:
+ 19900              	.LBE9:
+ 144:ADNS2610.c    ****  int lostCnt = 0;
+ 19901              		.loc 1 144 0
+ 19902 001e 2F46     		mov	r7, r5
+ 143:ADNS2610.c    ****  uint32_t n = 0;
+ 19903              		.loc 1 143 0
+ 19904 0020 2E46     		mov	r6, r5
+ 19905              	.LBB10:
+ 145:ADNS2610.c    ****  for(int i = 0; i < 10000; i++) {
+ 19906              		.loc 1 145 0
+ 19907 0022 42F21073 		movw	r3, #10000
+ 19908              	.LVL24:
+ 19909              	.L31:
+ 19910              	.LBB8:
+ 146:ADNS2610.c    **** 	 uint8_t b = ANDS2610_getRegister(0x08);
+ 19911              		.loc 1 146 0
+ 19912 0026 0820     		movs	r0, #8
+ 19913 0028 0292     		str	r2, [sp, #8]
+ 19914 002a 0193     		str	r3, [sp, #4]
+ 19915 002c FFF7FEFF 		bl	ANDS2610_getRegister
+ 19916              	.LVL25:
+ 147:ADNS2610.c    **** 	 if((b & 0x40) == 0) {
+ 19917              		.loc 1 147 0
+ 19918 0030 10F0400F 		tst	r0, #64
+ 19919              	.LVL26:
+ 19920 0034 029A     		ldr	r2, [sp, #8]
+ 19921 0036 019B     		ldr	r3, [sp, #4]
+ 19922 0038 01D1     		bne	.L28
+ 19923              	.LVL27:
+ 148:ADNS2610.c    **** 		 lostCnt++;
+ 19924              		.loc 1 148 0
+ 19925 003a 0137     		adds	r7, r7, #1
+ 19926              	.LVL28:
+ 149:ADNS2610.c    **** 		 continue;
+ 19927              		.loc 1 149 0
+ 19928 003c 09E0     		b	.L29
+ 19929              	.LVL29:
+ 19930              	.L28:
+ 151:ADNS2610.c    **** 	 imageBuffer[n++] = b & 0xBF;
+ 19931              		.loc 1 151 0
+ 19932 003e 00F0BF00 		and	r0, r0, #191
+ 19933              	.LVL30:
+ 19934 0042 9055     		strb	r0, [r2, r6]
+ 19935 0044 0136     		adds	r6, r6, #1
+ 19936              	.LVL31:
+ 152:ADNS2610.c    **** 	 if(n == sz) {
+ 19937              		.loc 1 152 0
+ 19938 0046 A642     		cmp	r6, r4
+ 19939 0048 03D1     		bne	.L29
+ 19940              	.LVL32:
+ 153:ADNS2610.c    **** 		 *lost = lostCnt;
+ 19941              		.loc 1 153 0
+ 19942 004a 039B     		ldr	r3, [sp, #12]
+ 154:ADNS2610.c    **** 		 return (uint8_t*)(&imageBuffer[0]);
+ 19943              		.loc 1 154 0
+ 19944 004c 0448     		ldr	r0, .L33
+ 19945              	.LVL33:
+ 153:ADNS2610.c    **** 		 *lost = lostCnt;
+ 19946              		.loc 1 153 0
+ 19947 004e 1F60     		str	r7, [r3, #0]
+ 154:ADNS2610.c    **** 		 return (uint8_t*)(&imageBuffer[0]);
+ 19948              		.loc 1 154 0
+ 19949 0050 03E0     		b	.L30
+ 19950              	.LVL34:
+ 19951              	.L29:
+ 19952              	.LBE8:
+ 145:ADNS2610.c    ****  for(int i = 0; i < 10000; i++) {
+ 19953              		.loc 1 145 0
+ 19954 0052 0135     		adds	r5, r5, #1
+ 19955              	.LVL35:
+ 19956 0054 9D42     		cmp	r5, r3
+ 19957 0056 E6D1     		bne	.L31
+ 19958              	.LVL36:
+ 19959              		.loc 1 157 0
+ 19960 0058 0020     		movs	r0, #0
+ 19961              	.LVL37:
+ 19962              	.L30:
+ 19963              	.LBE10:
+ 157:ADNS2610.c    **** }
+ 19964              		.loc 1 158 0
+ 19965 005a 05B0     		add	sp, sp, #20
+ 19966 005c F0BD     		pop	{r4, r5, r6, r7, pc}
+ 19967              	.L34:
+ 19968 005e 00BF     		.align	2
+ 19969              	.L33:
+ 19970 0060 00000000 		.word	.LANCHOR0
+ 19971              	.LFE36:
+ 19973              		.section	.text.ADNS2610_test,"ax",%progbits
+ 19974              		.align	1
+ 19975              		.global	ADNS2610_test
+ 19976              		.thumb
+ 19977              		.thumb_func
+ 19979              	ADNS2610_test:
+ 19980              	.LFB37:
+ 158:ADNS2610.c    **** 
+ 159:ADNS2610.c    **** 
+ 160:ADNS2610.c    **** ///* sample...
+ 161:ADNS2610.c    **** void ADNS2610_test() {
+ 19981              		.loc 1 162 0
+ 19982              		@ args = 0, pretend = 0, frame = 8
+ 19983              		@ frame_needed = 0, uses_anonymous_args = 0
+ 19984 0000 37B5     		push	{r0, r1, r2, r4, r5, lr}
+ 19985              	.LCFI10:
+ 162:ADNS2610.c    **** 	delayMs(T_SPTT);
+ 19986              		.loc 1 163 0
+ 19987 0002 9620     		movs	r0, #150
+ 19988 0004 FFF7FEFF 		bl	delayMs
+ 163:ADNS2610.c    **** 	ADNS2610_init();
+ 19989              		.loc 1 164 0
+ 19990 0008 FFF7FEFF 		bl	ADNS2610_init
+ 164:ADNS2610.c    **** 	delayMs(T_SPTT);
+ 19991              		.loc 1 165 0
+ 19992 000c 9620     		movs	r0, #150
+ 19993 000e FFF7FEFF 		bl	delayMs
+ 165:ADNS2610.c    **** 	ADNS2610_setAwake();
+ 19994              		.loc 1 166 0
+ 19995 0012 FFF7FEFF 		bl	ADNS2610_setAwake
+ 166:ADNS2610.c    **** 	uint8_t reg01 = ANDS2610_getRegister(0x01);
+ 19996              		.loc 1 167 0
+ 19997 0016 0120     		movs	r0, #1
+ 19998 0018 FFF7FEFF 		bl	ANDS2610_getRegister
+ 19999 001c 0546     		mov	r5, r0
+ 167:ADNS2610.c    **** 	uint8_t reg11 = ANDS2610_getRegister(0x11);
+ 20000              		.loc 1 168 0
+ 20001 001e 1120     		movs	r0, #17
+ 20002 0020 FFF7FEFF 		bl	ANDS2610_getRegister
+ 20003 0024 0446     		mov	r4, r0
+ 168:ADNS2610.c    **** 	USART_DBG_printf("ADNS2610 registers: [0x01]=%x [0x11]=%x\n", reg01, reg11);
+ 20004              		.loc 1 169 0
+ 20005 0026 2946     		mov	r1, r5
+ 20006 0028 1748     		ldr	r0, .L43
+ 20007 002a 2246     		mov	r2, r4
+ 169:ADNS2610.c    **** 	if((reg01 & 0xE1) != 0x01 || (reg11 & 0x0F) != 0x0F) {
+ 20008              		.loc 1 170 0
+ 20009 002c 05F0E105 		and	r5, r5, #225
+ 169:ADNS2610.c    **** 	if((reg01 & 0xE1) != 0x01 || (reg11 & 0x0F) != 0x0F) {
+ 20010              		.loc 1 169 0
+ 20011 0030 FFF7FEFF 		bl	USART_DBG_printf
+ 20012              		.loc 1 170 0
+ 20013 0034 012D     		cmp	r5, #1
+ 20014 0036 03D1     		bne	.L36
+ 20015              		.loc 1 170 0 is_stmt 0 discriminator 1
+ 20016 0038 04F00F04 		and	r4, r4, #15
+ 20017 003c 0F2C     		cmp	r4, #15
+ 20018 003e 02D0     		beq	.L37
+ 20019              	.L36:
+ 170:ADNS2610.c    **** 	 USART_DBG_printf("Critical error. Wrong ADNS2610 registers values");
+ 20020              		.loc 1 171 0 is_stmt 1
+ 20021 0040 1248     		ldr	r0, .L43+4
+ 20022 0042 FFF7FEFF 		bl	USART_DBG_printf
+ 20023              	.L37:
+ 171:ADNS2610.c    **** 	}
+ 172:ADNS2610.c    **** 	uint32_t t1 = _sysTicks;
+ 20024              		.loc 1 173 0
+ 20025 0046 124B     		ldr	r3, .L43+8
+ 173:ADNS2610.c    **** 	int lost;
+ 174:ADNS2610.c    **** 	uint8_t *img = ADNS2610_getImage(18, &lost);
+ 20026              		.loc 1 175 0
+ 20027 0048 1220     		movs	r0, #18
+ 20028 004a 01A9     		add	r1, sp, #4
+ 173:ADNS2610.c    **** 	int lost;
+ 20029              		.loc 1 173 0
+ 20030 004c 1C68     		ldr	r4, [r3, #0]
+ 20031              	.LVL38:
+ 20032              		.loc 1 175 0
+ 20033 004e FFF7FEFF 		bl	ADNS2610_getImage
+ 20034              	.LVL39:
+ 175:ADNS2610.c    **** 	if(img == NULL) {
+ 20035              		.loc 1 176 0
+ 20036 0052 10B9     		cbnz	r0, .L38
+ 176:ADNS2610.c    **** 		USART_DBG_puts("Get image from ADNS2610 register [0x08] timeout!!!\n");
+ 20037              		.loc 1 177 0
+ 20038 0054 0F48     		ldr	r0, .L43+12
+ 20039              	.LVL40:
+ 20040 0056 FFF7FEFF 		bl	USART_DBG_puts
+ 20041              	.L38:
+ 177:ADNS2610.c    **** 	}
+ 178:ADNS2610.c    **** 	uint32_t dt = _sysTicks-t1;
+ 20042              		.loc 1 179 0
+ 20043 005a 0D48     		ldr	r0, .L43+8
+ 20044              	.LVL41:
+ 179:ADNS2610.c    **** 	USART_DBG_printf("ADNS2610 get 18 pixel image time:%d ms, [0x08] image bytes without Data_Valid bi
+ 20045              		.loc 1 180 0
+ 20046 005c 019A     		ldr	r2, [sp, #4]
+ 179:ADNS2610.c    **** 	USART_DBG_printf("ADNS2610 get 18 pixel image time:%d ms, [0x08] image bytes without Data_Valid bi
+ 20047              		.loc 1 179 0
+ 20048 005e 0168     		ldr	r1, [r0, #0]
+ 20049              		.loc 1 180 0
+ 20050 0060 0D48     		ldr	r0, .L43+16
+ 20051              	.LVL42:
+ 20052 0062 091B     		subs	r1, r1, r4
+ 20053 0064 FFF7FEFF 		bl	USART_DBG_printf
+ 20054              	.LVL43:
+ 20055              	.L42:
+ 20056              	.LBB11:
+ 180:ADNS2610.c    **** 
+ 181:ADNS2610.c    **** 	uint16_t sz = 18*18;
+ 182:ADNS2610.c    **** 	while(1) {
+ 183:ADNS2610.c    **** 		int lost;
+ 184:ADNS2610.c    **** 		uint8_t *img = ADNS2610_getImage(sz, &lost);
+ 20057              		.loc 1 185 0
+ 20058 0068 4FF4A270 		mov	r0, #324
+ 20059 006c 6946     		mov	r1, sp
+ 20060 006e FFF7FEFF 		bl	ADNS2610_getImage
+ 20061              	.LVL44:
+ 185:ADNS2610.c    **** 	//		uint32_t dt = _sysTicks-t1;
+ 186:ADNS2610.c    **** 	//		USART_DBG_printf("DT:%d %d\n", dt, lost);
+ 187:ADNS2610.c    **** 		if(img == NULL) USART_DBG_puts("Get image from ADNS2610 register [0x08] timeout!!!\n");
+ 20062              		.loc 1 188 0
+ 20063 0072 18B9     		cbnz	r0, .L40
+ 20064              		.loc 1 188 0 is_stmt 0 discriminator 1
+ 20065 0074 0748     		ldr	r0, .L43+12
+ 20066              	.LVL45:
+ 20067 0076 FFF7FEFF 		bl	USART_DBG_puts
+ 20068 007a F5E7     		b	.L42
+ 20069              	.LVL46:
+ 20070              	.L40:
+ 188:ADNS2610.c    **** 		else USART_DBG_bin(img, sz);
+ 20071              		.loc 1 189 0 is_stmt 1
+ 20072 007c 4FF4A271 		mov	r1, #324
+ 20073 0080 FFF7FEFF 		bl	USART_DBG_bin
+ 20074              	.LVL47:
+ 20075 0084 F0E7     		b	.L42
+ 20076              	.L44:
+ 20077 0086 00BF     		.align	2
+ 20078              	.L43:
+ 20079 0088 00000000 		.word	.LC0
+ 20080 008c 29000000 		.word	.LC1
+ 20081 0090 00000000 		.word	_sysTicks
+ 20082 0094 59000000 		.word	.LC2
+ 20083 0098 8D000000 		.word	.LC3
+ 20084              	.LBE11:
+ 20085              	.LFE37:
+ 20087              		.section	.bss.imageBuffer,"aw",%nobits
+ 20088              		.align	2
+ 20089              		.set	.LANCHOR0,. + 0
+ 20092              	imageBuffer:
+ 20093 0000 00000000 		.space	324
+ 20093      00000000 
+ 20093      00000000 
+ 20093      00000000 
+ 20093      00000000 
+ 20094              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 20095              	.LC0:
+ 20096 0000 41444E53 		.ascii	"ADNS2610 registers: [0x01]=%x [0x11]=%x\012\000"
+ 20096      32363130 
+ 20096      20726567 
+ 20096      69737465 
+ 20096      72733A20 
+ 20097              	.LC1:
+ 20098 0029 43726974 		.ascii	"Critical error. Wrong ADNS2610 registers values\000"
+ 20098      6963616C 
+ 20098      20657272 
+ 20098      6F722E20 
+ 20098      57726F6E 
+ 20099              	.LC2:
+ 20100 0059 47657420 		.ascii	"Get image from ADNS2610 register [0x08] timeout!!!\012"
+ 20100      696D6167 
+ 20100      65206672 
+ 20100      6F6D2041 
+ 20100      444E5332 
+ 20101 008c 00       		.ascii	"\000"
+ 20102              	.LC3:
+ 20103 008d 41444E53 		.ascii	"ADNS2610 get 18 pixel image time:%d ms, [0x08] imag"
+ 20103      32363130 
+ 20103      20676574 
+ 20103      20313820 
+ 20103      70697865 
+ 20104 00c0 65206279 		.ascii	"e bytes without Data_Valid bit:%d\012\000"
+ 20104      74657320 
+ 20104      77697468 
+ 20104      6F757420 
+ 20104      44617461 
+ 20327              	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 ADNS2610.c
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19479  .text.CLK_halfDelay:00000000 $t
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19483  .text.CLK_halfDelay:00000000 CLK_halfDelay
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19510  .text.sendByte:00000000 $t
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19514  .text.sendByte:00000000 sendByte
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19570  .text.sendByte:00000040 $d
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19575  .text.ADNS2610_init:00000000 $t
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19580  .text.ADNS2610_init:00000000 ADNS2610_init
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19655  .text.ADNS2610_init:00000070 $d
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19660  .text.ADNS2610_delayUs:00000000 $t
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19665  .text.ADNS2610_delayUs:00000000 ADNS2610_delayUs
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19700  .text.ADNS2610_delay:00000000 $t
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19705  .text.ADNS2610_delay:00000000 ADNS2610_delay
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19720  .text.ANDS2610_setRegister:00000000 $t
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19725  .text.ANDS2610_setRegister:00000000 ANDS2610_setRegister
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19751  .text.ANDS2610_getRegister:00000000 $t
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19756  .text.ANDS2610_getRegister:00000000 ANDS2610_getRegister
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19834  .text.ANDS2610_getRegister:00000060 $d
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19839  .text.ADNS2610_setAwake:00000000 $t
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19844  .text.ADNS2610_setAwake:00000000 ADNS2610_setAwake
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19860  .text.ADNS2610_getImage:00000000 $t
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19865  .text.ADNS2610_getImage:00000000 ADNS2610_getImage
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19970  .text.ADNS2610_getImage:00000060 $d
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19974  .text.ADNS2610_test:00000000 $t
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:19979  .text.ADNS2610_test:00000000 ADNS2610_test
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:20079  .text.ADNS2610_test:00000088 $d
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:20088  .bss.imageBuffer:00000000 $d
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:20092  .bss.imageBuffer:00000000 imageBuffer
+C:\Users\mm\AppData\Local\Temp\ccGnmkOh.s:20118  .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+RCC_APB2PeriphClockCmd
+GPIO_Init
+RCC_APB1PeriphClockCmd
+TIM_TimeBaseStructInit
+TIM_TimeBaseInit
+TIM_Cmd
+TIM_SetCounter
+TIM_GetCounter
+delayMs
+USART_DBG_printf
+USART_DBG_puts
+USART_DBG_bin
+_sysTicks

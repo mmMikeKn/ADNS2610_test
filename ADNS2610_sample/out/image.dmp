@@ -1,0 +1,235 @@
+
+./../../out/image.elf:     file format elf32-littlearm
+./../../out/image.elf
+architecture: arm, flags 0x00000112:
+EXEC_P, HAS_SYMS, D_PAGED
+start address 0x08000000
+
+Program Header:
+    LOAD off    0x00008000 vaddr 0x08000000 paddr 0x08000000 align 2**15
+         filesz 0x00001054 memsz 0x00001054 flags r-x
+    LOAD off    0x00010000 vaddr 0x20000000 paddr 0x08001054 align 2**15
+         filesz 0x00000014 memsz 0x0000067c flags rw-
+private flags = 5000002: [Version5 EABI] [has entry point]
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00001054  08000000  08000000  00008000  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000014  20000000  08001054  00010000  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000668  20000014  08001068  00010014  2**2
+                  ALLOC
+  3 .debug_abbrev 00001517  00000000  00000000  00010014  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_info   00006ee6  00000000  00000000  0001152b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   00003894  00000000  00000000  00018411  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_macinfo 002f85ef  00000000  00000000  0001bca5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_frame  00001550  00000000  00000000  00314294  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    00003695  00000000  00000000  003157e4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_pubnames 00001a9a  00000000  00000000  00318e79  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_pubtypes 0000066f  00000000  00000000  0031a913  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_aranges 00000a40  00000000  00000000  0031af82  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000bc0  00000000  00000000  0031b9c2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_str    00002b38  00000000  00000000  0031c582  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 14 .comment      00000053  00000000  00000000  0031f0ba  2**0
+                  CONTENTS, READONLY
+ 15 .ARM.attributes 00000031  00000000  00000000  0031f10d  2**0
+                  CONTENTS, READONLY
+SYMBOL TABLE:
+08000000 l    d  .text	00000000 .text
+20000000 l    d  .data	00000000 .data
+20000014 l    d  .bss	00000000 .bss
+00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
+00000000 l    d  .debug_info	00000000 .debug_info
+00000000 l    d  .debug_line	00000000 .debug_line
+00000000 l    d  .debug_macinfo	00000000 .debug_macinfo
+00000000 l    d  .debug_frame	00000000 .debug_frame
+00000000 l    d  .debug_loc	00000000 .debug_loc
+00000000 l    d  .debug_pubnames	00000000 .debug_pubnames
+00000000 l    d  .debug_pubtypes	00000000 .debug_pubtypes
+00000000 l    d  .debug_aranges	00000000 .debug_aranges
+00000000 l    d  .debug_ranges	00000000 .debug_ranges
+00000000 l    d  .debug_str	00000000 .debug_str
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .ARM.attributes	00000000 .ARM.attributes
+00000000 l    df *ABS*	00000000 crt.c
+00000000 l    df *ABS*	00000000 ADNS2610.c
+08000130 l     F .text	00000014 CLK_halfDelay
+08000144 l     F .text	00000048 sendByte
+20000014 l     O .bss	00000144 imageBuffer
+00000000 l    df *ABS*	00000000 USART_io.c
+080003cc l     F .text	000000b4 USART_DBG_itoa.clone.0
+20000158 l     O .bss	00000002 USART_DBG_buffer_ptr_put
+2000015a l     O .bss	00000002 USART_DBG_buffer_ptr_get
+2000015c l     O .bss	00000400 USART1_TX_ring_buffer
+2000055c l     O .bss	00000100 sout.3470
+2000065c l     O .bss	00000002 USART_DBG_buffer_data_size
+00000000 l    df *ABS*	00000000 hw_config.c
+00000000 l    df *ABS*	00000000 main.c
+00000000 l    df *ABS*	00000000 stm32f10x_it.c
+2000065e l     O .bss	00000001 flip.3242
+00000000 l    df *ABS*	00000000 misc.c
+00000000 l    df *ABS*	00000000 stm32f10x_flash.c
+00000000 l    df *ABS*	00000000 stm32f10x_gpio.c
+00000000 l    df *ABS*	00000000 stm32f10x_rcc.c
+20000000 l     O .data	00000004 ADCPrescTable
+20000004 l     O .data	00000010 APBAHBPrescTable
+00000000 l    df *ABS*	00000000 stm32f10x_tim.c
+00000000 l    df *ABS*	00000000 stm32f10x_usart.c
+00000000 l    df *ABS*	00000000 system_stm32f10x.c
+08000dec g     F .text	00000012 TIM_TimeBaseStructInit
+08000960 g     F .text	00000002 EXTI2_IRQHandler
+080008ea g     F .text	00000002 MemManageException
+080009da g     F .text	00000002 TIM8_TRG_COM_IRQHandler
+080009dc g     F .text	00000002 TIM8_CC_IRQHandler
+08001068 g       *ABS*	00000000 _fast_load_end_
+08000be8 g     F .text	0000000c RCC_PLLCmd
+08000480 g     F .text	00000060 USART1_IT_TxReady_exec
+080008ec g     F .text	00000002 BusFaultException
+0800058c g     F .text	00000100 USART_DBG_printf
+08000330 g     F .text	0000009c ADNS2610_test
+08000986 g     F .text	00000002 TIM1_CC_IRQHandler
+20000664 g     O .bss	00000001 HSEStartUpStatus
+080009ec g     F .text	00000002 TIM6_IRQHandler
+0800075c g     F .text	00000068 crt_init
+08000a0c g     F .text	00000064 NVIC_Init
+08000952 g     F .text	00000002 PVD_IRQHandler
+080009e2 g     F .text	00000002 SDIO_IRQHandler
+0800068c g     F .text	000000d0 USART_init
+08000962 g     F .text	00000002 EXTI3_IRQHandler
+08000bf4 g     F .text	00000014 RCC_SYSCLKConfig
+080008c0 g     F .text	00000012 delayMs
+080008f0 g     F .text	00000002 DebugMonitor
+080008f2 g     F .text	00000002 SVCHandler
+08000d6c g     F .text	0000002c RCC_WaitForHSEStartUp
+080007e0 g     F .text	000000e0 SystemStartup
+20000000 g       .data	00000000 _ram_vec_end_
+080008e6 g     F .text	00000004 HardFaultException
+08000976 g     F .text	00000002 USB_HP_CAN_TX_IRQHandler
+0800095c g     F .text	00000002 EXTI0_IRQHandler
+08000992 g     F .text	00000002 I2C2_EV_IRQHandler
+08000dfe g     F .text	0000001c TIM_Cmd
+08000f1a g     F .text	00000008 USART_ReceiveData
+08000b98 g     F .text	00000038 RCC_HSEConfig
+08000e1e g     F .text	00000006 TIM_GetCounter
+08000d08 g     F .text	0000001c RCC_APB2PeriphClockCmd
+08000974 g     F .text	00000002 ADC1_2_IRQHandler
+08000a9c g     F .text	000000b2 GPIO_Init
+08000bd0 g     F .text	00000018 RCC_PLLConfig
+08000c54 g     F .text	00000014 RCC_ADCCLKConfig
+08000996 g     F .text	00000002 SPI1_IRQHandler
+0800097c g     F .text	00000002 CAN_SCE_IRQHandler
+08000ec0 g     F .text	0000001c USART_Cmd
+08000954 g     F .text	00000002 TAMPER_IRQHandler
+080009d8 g     F .text	00000002 TIM8_UP_IRQHandler
+08000d24 g     F .text	0000001c RCC_APB1PeriphClockCmd
+00000000  w      *UND*	00000000 __libc_init_array
+080009f2 g     F .text	00000002 DMA2_Channel2_IRQHandler
+0800096c g     F .text	00000002 DMA1_Channel4_IRQHandler
+08000234 g     F .text	0000000a ADNS2610_delay
+080008e4 g     F .text	00000002 NMIException
+080009ce g     F .text	00000002 USART3_IRQHandler
+08000956 g     F .text	00000002 RTC_IRQHandler
+080008f8 g     F .text	00000058 SysTickHandler
+08001054 g       *ABS*	00000000 _data_load_start_
+08000f22 g     F .text	0000004a USART_GetITStatus
+08000972 g     F .text	00000002 DMA1_Channel7_IRQHandler
+080007c4 g     F .text	0000001a Reset_Handler
+080008f4 g     F .text	00000002 PendSVC
+080009ea g     F .text	00000002 UART5_IRQHandler
+08000d40 g     F .text	0000002c RCC_GetFlagStatus
+0800054c g     F .text	00000014 USART_DBG_puts
+080009de g     F .text	00000002 ADC3_IRQHandler
+0800098c g     F .text	00000002 TIM4_IRQHandler
+20000000 g       .data	00000000 _data_start_
+08000c08 g     F .text	00000010 RCC_GetSYSCLKSource
+0800097a g     F .text	00000002 CAN_RX1_IRQHandler
+080009f0 g     F .text	00000002 DMA2_Channel1_IRQHandler
+0800098e g     F .text	00000002 I2C1_EV_IRQHandler
+08001068 g       *ABS*	00000000 _data_load_end_
+08000c68 g     F .text	000000a0 RCC_GetClocksFreq
+08000204 g     F .text	00000030 ADNS2610_delayUs
+08000970 g     F .text	00000002 DMA1_Channel6_IRQHandler
+08000a84 g     F .text	00000018 FLASH_PrefetchBufferCmd
+080009e8 g     F .text	00000002 UART4_IRQHandler
+08000e24 g     F .text	0000009c USART_Init
+08001068 g       *ABS*	00000000 _fast_load_start_
+0800098a g     F .text	00000002 TIM3_IRQHandler
+0800095a g     F .text	00000002 RCC_IRQHandler
+08000984 g     F .text	00000002 TIM1_TRG_COM_IRQHandler
+08000966 g     F .text	00000002 DMA1_Channel1_IRQHandler
+20000660 g     O .bss	00000004 _sysTicks
+080004e0 g     F .text	00000064 USART_DBG_putc
+08000000 g     O .text	00000130 flash_vec_table
+080009d0 g     F .text	00000002 EXTI15_10_IRQHandler
+08000edc g     F .text	00000036 USART_ITConfig
+20000014 g       .bss	00000000 _bss_start_
+08001050 g     O .text	00000004 SystemFrequency
+080009ee g     F .text	00000002 TIM7_IRQHandler
+080009e4 g     F .text	00000002 TIM5_IRQHandler
+080002cc g     F .text	00000064 ADNS2610_getImage
+20000014 g       .data	00000000 _fast_start_
+0800097e g     F .text	00000002 EXTI9_5_IRQHandler
+20005000 g       *ABS*	00000000 _stack_end_
+20000664 g       .bss	00000000 _bss_end_
+08000998 g     F .text	00000002 SPI2_IRQHandler
+08001054 g       .text	00000000 _ram_vec_load_start_
+080002c0 g     F .text	0000000c ADNS2610_setAwake
+08000978 g     F .text	00000002 USB_LP_CAN_RX0_IRQHandler
+08000a70 g     F .text	00000014 FLASH_SetLatency
+080008d2 g     F .text	00000012 main
+08001054 g       .text	00000000 _text_end_
+20000014 g       .data	00000000 _fast_end_
+08000c2c g     F .text	00000014 RCC_PCLK1Config
+0800096e g     F .text	00000002 DMA1_Channel5_IRQHandler
+08000e1a g     F .text	00000004 TIM_SetCounter
+08000964 g     F .text	00000002 EXTI4_IRQHandler
+20000014 g       .data	00000000 _data_end_
+08000c40 g     F .text	00000014 RCC_PCLK2Config
+08000b50 g     F .text	00000048 RCC_DeInit
+08000560 g     F .text	0000002a USART_DBG_bin
+0800096a g     F .text	00000002 DMA1_Channel3_IRQHandler
+080009e0 g     F .text	00000002 FSMC_IRQHandler
+08000982 g     F .text	00000002 TIM1_UP_IRQHandler
+08000258 g     F .text	00000068 ANDS2610_getRegister
+08000950 g     F .text	00000002 WWDG_IRQHandler
+08000988 g     F .text	00000002 TIM2_IRQHandler
+08000980 g     F .text	00000002 TIM1_BRK_IRQHandler
+08000f12 g     F .text	00000008 USART_SendData
+08001068 g       *ABS*	00000000 _flash_end_
+0800095e g     F .text	00000002 EXTI1_IRQHandler
+08000d98 g     F .text	00000054 TIM_TimeBaseInit
+080009d2 g     F .text	00000002 RTCAlarm_IRQHandler
+080009f6 g     F .text	00000002 DMA2_Channel4_5_IRQHandler
+08001054 g       *ABS*	00000000 _ram_vec_load_end_
+080009cc g     F .text	00000002 USART2_IRQHandler
+20000668 g     O .bss	00000014 RCC_Clocks
+0800023e g     F .text	00000018 ANDS2610_setRegister
+08000994 g     F .text	00000002 I2C2_ER_IRQHandler
+08000968 g     F .text	00000002 DMA1_Channel2_IRQHandler
+080009d6 g     F .text	00000002 TIM8_BRK_IRQHandler
+080008ee g     F .text	00000002 UsageFaultException
+08000958 g     F .text	00000002 FLASH_IRQHandler
+0800099c g     F .text	00000030 USART1_IRQHandler
+080009e6 g     F .text	00000002 SPI3_IRQHandler
+08000990 g     F .text	00000002 I2C1_ER_IRQHandler
+080009f8 g     F .text	00000014 NVIC_PriorityGroupConfig
+0800018c g     F .text	00000078 ADNS2610_init
+20000000 g       .data	00000000 _ram_vec_start_
+08000544 g     F .text	00000008 USART1_IT_RxReady_exec
+080009d4 g     F .text	00000002 USBWakeUp_IRQHandler
+08000c18 g     F .text	00000014 RCC_HCLKConfig
+080009f4 g     F .text	00000002 DMA2_Channel3_IRQHandler
+
+

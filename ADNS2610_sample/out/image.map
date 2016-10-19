@@ -1,0 +1,1171 @@
+Archive member included because of file (symbol)
+
+./../../lib\libhardware.a(misc.o)
+                              USART_io.o (NVIC_PriorityGroupConfig)
+./../../lib\libhardware.a(stm32f10x_flash.o)
+                              hw_config.o (FLASH_SetLatency)
+./../../lib\libhardware.a(stm32f10x_gpio.o)
+                              ADNS2610.o (GPIO_Init)
+./../../lib\libhardware.a(stm32f10x_rcc.o)
+                              hw_config.o (RCC_DeInit)
+./../../lib\libhardware.a(stm32f10x_tim.o)
+                              ADNS2610.o (TIM_TimeBaseInit)
+./../../lib\libhardware.a(stm32f10x_usart.o)
+                              USART_io.o (USART_Init)
+./../../lib\libcmsis.a(system_stm32f10x.o)
+                              hw_config.o (SystemFrequency)
+
+Allocating common symbols
+Common symbol       size              file
+
+HSEStartUpStatus    0x1               hw_config.o
+RCC_Clocks          0x14              hw_config.o
+
+Discarded input sections
+
+ .text          0x00000000        0x0 ADNS2610.o
+ .data          0x00000000        0x0 ADNS2610.o
+ .bss           0x00000000        0x0 ADNS2610.o
+ .text          0x00000000        0x0 USART_io.o
+ .data          0x00000000        0x0 USART_io.o
+ .bss           0x00000000        0x0 USART_io.o
+ .text.USART_DBG_hexDump
+                0x00000000       0x58 USART_io.o
+ .rodata.xlat.3456
+                0x00000000       0x10 USART_io.o
+ .text          0x00000000        0x0 crt.o
+ .data          0x00000000        0x0 crt.o
+ .bss           0x00000000        0x0 crt.o
+ .text          0x00000000        0x0 hw_config.o
+ .data          0x00000000        0x0 hw_config.o
+ .bss           0x00000000        0x0 hw_config.o
+ .text.GetCpuClock
+                0x00000000        0xc hw_config.o
+ .text          0x00000000        0x0 main.o
+ .data          0x00000000        0x0 main.o
+ .bss           0x00000000        0x0 main.o
+ .text.delayUs  0x00000000       0x10 main.o
+ .text          0x00000000        0x0 stm32f10x_it.o
+ .data          0x00000000        0x0 stm32f10x_it.o
+ .bss           0x00000000        0x0 stm32f10x_it.o
+ .text          0x00000000        0x0 ./../../lib\libhardware.a(misc.o)
+ .data          0x00000000        0x0 ./../../lib\libhardware.a(misc.o)
+ .bss           0x00000000        0x0 ./../../lib\libhardware.a(misc.o)
+ .text.NVIC_SetVectorTable
+                0x00000000       0x18 ./../../lib\libhardware.a(misc.o)
+ .text.NVIC_SystemLPConfig
+                0x00000000       0x1c ./../../lib\libhardware.a(misc.o)
+ .text.SysTick_CLKSourceConfig
+                0x00000000       0x20 ./../../lib\libhardware.a(misc.o)
+ .text          0x00000000        0x0 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .data          0x00000000        0x0 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .bss           0x00000000        0x0 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_HalfCycleAccessCmd
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_Unlock
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_Lock
+                0x00000000       0x10 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_GetUserOptionByte
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_GetWriteProtectionOptionByte
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_GetReadOutProtectionStatus
+                0x00000000       0x10 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_GetPrefetchBufferStatus
+                0x00000000       0x10 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_ITConfig
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_GetFlagStatus
+                0x00000000       0x20 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_ClearFlag
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_GetStatus
+                0x00000000       0x2c ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_WaitForLastOperation
+                0x00000000       0x44 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_UserOptionByteConfig
+                0x00000000       0x5c ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_ReadOutProtection
+                0x00000000       0xa0 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_EnableWriteProtection
+                0x00000000       0xc4 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_ProgramOptionByteData
+                0x00000000       0x48 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_ProgramHalfWord
+                0x00000000       0x38 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_ProgramWord
+                0x00000000       0x58 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_EraseOptionBytes
+                0x00000000       0x7c ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_EraseAllPages
+                0x00000000       0x40 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text.FLASH_ErasePage
+                0x00000000       0x44 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .text          0x00000000        0x0 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .data          0x00000000        0x0 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .bss           0x00000000        0x0 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text.GPIO_DeInit
+                0x00000000       0xa8 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text.GPIO_AFIODeInit
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text.GPIO_StructInit
+                0x00000000       0x10 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text.GPIO_ReadInputDataBit
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text.GPIO_ReadInputData
+                0x00000000        0x6 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text.GPIO_ReadOutputDataBit
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text.GPIO_ReadOutputData
+                0x00000000        0x6 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text.GPIO_SetBits
+                0x00000000        0x4 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text.GPIO_ResetBits
+                0x00000000        0x4 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text.GPIO_WriteBit
+                0x00000000        0xa ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text.GPIO_Write
+                0x00000000        0x4 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text.GPIO_PinLockConfig
+                0x00000000       0x10 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text.GPIO_EventOutputConfig
+                0x00000000       0x20 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text.GPIO_EventOutputCmd
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text.GPIO_PinRemapConfig
+                0x00000000       0x68 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text.GPIO_EXTILineConfig
+                0x00000000       0x38 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text.GPIO_ETH_MediaInterfaceConfig
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .text          0x00000000        0x0 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .data          0x00000000        0x0 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .bss           0x00000000        0x0 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text.RCC_AdjustHSICalibrationValue
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text.RCC_HSICmd
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text.RCC_ITConfig
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text.RCC_USBCLKConfig
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text.RCC_LSEConfig
+                0x00000000       0x20 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text.RCC_LSICmd
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text.RCC_RTCCLKConfig
+                0x00000000       0x10 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text.RCC_RTCCLKCmd
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text.RCC_AHBPeriphClockCmd
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text.RCC_APB2PeriphResetCmd
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text.RCC_APB1PeriphResetCmd
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text.RCC_BackupResetCmd
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text.RCC_ClockSecuritySystemCmd
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text.RCC_MCOConfig
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text.RCC_ClearFlag
+                0x00000000       0x10 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text.RCC_GetITStatus
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text.RCC_ClearITPendingBit
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .text          0x00000000        0x0 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .data          0x00000000        0x0 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .bss           0x00000000        0x0 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TI2_Config
+                0x00000000       0x46 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_DeInit
+                0x00000000       0xc4 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC1Init
+                0x00000000       0x94 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC2Init
+                0x00000000       0xa0 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC3Init
+                0x00000000       0x9c ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC4Init
+                0x00000000       0x80 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ICInit
+                0x00000000      0x140 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_PWMIConfig
+                0x00000000      0x11c ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_BDTRConfig
+                0x00000000       0x26 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OCStructInit
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ICStructInit
+                0x00000000       0x10 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_BDTRStructInit
+                0x00000000       0x12 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_CtrlPWMOutputs
+                0x00000000       0x20 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ITConfig
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_GenerateEvent
+                0x00000000        0x4 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_DMAConfig
+                0x00000000        0xa ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_DMACmd
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_InternalClockConfig
+                0x00000000       0x10 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ITRxExternalClockConfig
+                0x00000000       0x20 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_TIxExternalClockConfig
+                0x00000000       0x68 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ETRClockMode1Config
+                0x00000000       0x2a ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ETRClockMode2Config
+                0x00000000       0x26 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ETRConfig
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_PrescalerConfig
+                0x00000000        0x6 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_CounterModeConfig
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SelectInputTrigger
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_EncoderInterfaceConfig
+                0x00000000       0x44 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ForcedOC1Config
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ForcedOC2Config
+                0x00000000       0x16 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ForcedOC3Config
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ForcedOC4Config
+                0x00000000       0x16 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ARRPreloadConfig
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SelectCOM
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SelectCCDMA
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_CCPreloadControl
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC1PreloadConfig
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC2PreloadConfig
+                0x00000000       0x16 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC3PreloadConfig
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC4PreloadConfig
+                0x00000000       0x16 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC1FastConfig
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC2FastConfig
+                0x00000000       0x16 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC3FastConfig
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC4FastConfig
+                0x00000000       0x16 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ClearOC1Ref
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ClearOC2Ref
+                0x00000000       0x10 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ClearOC3Ref
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ClearOC4Ref
+                0x00000000       0x10 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC1PolarityConfig
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC1NPolarityConfig
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC2PolarityConfig
+                0x00000000       0x16 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC2NPolarityConfig
+                0x00000000       0x16 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC3PolarityConfig
+                0x00000000       0x16 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC3NPolarityConfig
+                0x00000000       0x16 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_OC4PolarityConfig
+                0x00000000       0x16 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_CCxCmd
+                0x00000000       0x20 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_CCxNCmd
+                0x00000000       0x20 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SelectOCxM
+                0x00000000       0x62 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_UpdateDisableConfig
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_UpdateRequestConfig
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SelectHallSensor
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SelectOnePulseMode
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SelectOutputTrigger
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SelectSlaveMode
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SelectMasterSlaveMode
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SetAutoreload
+                0x00000000        0x4 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SetCompare1
+                0x00000000        0x4 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SetCompare2
+                0x00000000        0x4 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SetCompare3
+                0x00000000        0x4 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SetCompare4
+                0x00000000        0x6 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SetIC1Prescaler
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SetIC2Prescaler
+                0x00000000       0x20 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SetIC3Prescaler
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SetIC4Prescaler
+                0x00000000       0x20 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_SetClockDivision
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_GetCapture1
+                0x00000000        0x6 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_GetCapture2
+                0x00000000        0x6 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_GetCapture3
+                0x00000000        0x6 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_GetCapture4
+                0x00000000        0x8 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_GetPrescaler
+                0x00000000        0x6 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_GetFlagStatus
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ClearFlag
+                0x00000000        0x8 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_GetITStatus
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text.TIM_ClearITPendingBit
+                0x00000000        0x8 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .text          0x00000000        0x0 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .data          0x00000000        0x0 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .bss           0x00000000        0x0 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_DeInit
+                0x00000000       0x94 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_StructInit
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_ClockInit
+                0x00000000       0x2c ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_ClockStructInit
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_DMACmd
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_SetAddress
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_WakeUpConfig
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_ReceiverWakeUpCmd
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_LINBreakDetectLengthConfig
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_LINCmd
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_SendBreak
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_SetGuardTime
+                0x00000000       0x16 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_SetPrescaler
+                0x00000000       0x14 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_SmartCardCmd
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_SmartCardNACKCmd
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_HalfDuplexCmd
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_IrDAConfig
+                0x00000000       0x18 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_IrDACmd
+                0x00000000       0x1c ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_GetFlagStatus
+                0x00000000        0xc ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_ClearFlag
+                0x00000000        0x8 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text.USART_ClearITPendingBit
+                0x00000000       0x10 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .text          0x00000000        0x0 ./../../lib\libcmsis.a(system_stm32f10x.o)
+ .data          0x00000000        0x0 ./../../lib\libcmsis.a(system_stm32f10x.o)
+ .bss           0x00000000        0x0 ./../../lib\libcmsis.a(system_stm32f10x.o)
+ .text.SystemInit
+                0x00000000      0x10c ./../../lib\libcmsis.a(system_stm32f10x.o)
+ .rodata.SystemFrequency_AHBClk
+                0x00000000        0x4 ./../../lib\libcmsis.a(system_stm32f10x.o)
+ .rodata.SystemFrequency_SysClk
+                0x00000000        0x4 ./../../lib\libcmsis.a(system_stm32f10x.o)
+ .rodata.SystemFrequency_APB1Clk
+                0x00000000        0x4 ./../../lib\libcmsis.a(system_stm32f10x.o)
+ .rodata.SystemFrequency_APB2Clk
+                0x00000000        0x4 ./../../lib\libcmsis.a(system_stm32f10x.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+flash            0x08000000         0x00010000         xr
+ram              0x20000000         0x00005000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD ADNS2610.o
+LOAD USART_io.o
+LOAD crt.o
+LOAD hw_config.o
+LOAD main.o
+LOAD stm32f10x_it.o
+LOAD ./../../lib\libhardware.a
+LOAD ./../../lib\libcmsis.a
+LOAD d:/myprivate/stm32_gcc/gcc/bin/../lib/gcc/arm-kgp-eabi/4.5.0/../../../../arm-kgp-eabi/lib/thumb/cortex-m3\libm.a
+START GROUP
+LOAD d:/myprivate/stm32_gcc/gcc/bin/../lib/gcc/arm-kgp-eabi/4.5.0/thumb/cortex-m3\libgcc.a
+LOAD d:/myprivate/stm32_gcc/gcc/bin/../lib/gcc/arm-kgp-eabi/4.5.0/../../../../arm-kgp-eabi/lib/thumb/cortex-m3\libc.a
+END GROUP
+                0x20005000                _stack_end_ = 0x20005000
+                0x00000000                . = 0x0
+
+.text           0x08000000     0x1054
+                0x08000000                . = ALIGN (0x4)
+ *(.flash_vec_table)
+ .flash_vec_table
+                0x08000000      0x130 crt.o
+                0x08000000                flash_vec_table
+ *(.text)
+ *(.text*)
+ .text.CLK_halfDelay
+                0x08000130       0x14 ADNS2610.o
+ .text.sendByte
+                0x08000144       0x48 ADNS2610.o
+ .text.ADNS2610_init
+                0x0800018c       0x78 ADNS2610.o
+                0x0800018c                ADNS2610_init
+ .text.ADNS2610_delayUs
+                0x08000204       0x30 ADNS2610.o
+                0x08000204                ADNS2610_delayUs
+ .text.ADNS2610_delay
+                0x08000234        0xa ADNS2610.o
+                0x08000234                ADNS2610_delay
+ .text.ANDS2610_setRegister
+                0x0800023e       0x18 ADNS2610.o
+                0x0800023e                ANDS2610_setRegister
+ *fill*         0x08000256        0x2 00
+ .text.ANDS2610_getRegister
+                0x08000258       0x68 ADNS2610.o
+                0x08000258                ANDS2610_getRegister
+ .text.ADNS2610_setAwake
+                0x080002c0        0xc ADNS2610.o
+                0x080002c0                ADNS2610_setAwake
+ .text.ADNS2610_getImage
+                0x080002cc       0x64 ADNS2610.o
+                0x080002cc                ADNS2610_getImage
+ .text.ADNS2610_test
+                0x08000330       0x9c ADNS2610.o
+                0x08000330                ADNS2610_test
+ .text.USART_DBG_itoa.clone.0
+                0x080003cc       0xb4 USART_io.o
+ .text.USART1_IT_TxReady_exec
+                0x08000480       0x60 USART_io.o
+                0x08000480                USART1_IT_TxReady_exec
+ .text.USART_DBG_putc
+                0x080004e0       0x64 USART_io.o
+                0x080004e0                USART_DBG_putc
+ .text.USART1_IT_RxReady_exec
+                0x08000544        0x8 USART_io.o
+                0x08000544                USART1_IT_RxReady_exec
+ .text.USART_DBG_puts
+                0x0800054c       0x14 USART_io.o
+                0x0800054c                USART_DBG_puts
+ .text.USART_DBG_bin
+                0x08000560       0x2a USART_io.o
+                0x08000560                USART_DBG_bin
+ *fill*         0x0800058a        0x2 00
+ .text.USART_DBG_printf
+                0x0800058c      0x100 USART_io.o
+                0x0800058c                USART_DBG_printf
+ .text.USART_init
+                0x0800068c       0xd0 USART_io.o
+                0x0800068c                USART_init
+ .text.crt_init
+                0x0800075c       0x68 crt.o
+                0x0800075c                crt_init
+ .text.Reset_Handler
+                0x080007c4       0x1a crt.o
+                0x080007c4                Reset_Handler
+ *fill*         0x080007de        0x2 00
+ .text.SystemStartup
+                0x080007e0       0xe0 hw_config.o
+                0x080007e0                SystemStartup
+ .text.delayMs  0x080008c0       0x12 main.o
+                0x080008c0                delayMs
+ .text.main     0x080008d2       0x12 main.o
+                0x080008d2                main
+ .text.NMIException
+                0x080008e4        0x2 stm32f10x_it.o
+                0x080008e4                NMIException
+ .text.HardFaultException
+                0x080008e6        0x4 stm32f10x_it.o
+                0x080008e6                HardFaultException
+ .text.MemManageException
+                0x080008ea        0x2 stm32f10x_it.o
+                0x080008ea                MemManageException
+ .text.BusFaultException
+                0x080008ec        0x2 stm32f10x_it.o
+                0x080008ec                BusFaultException
+ .text.UsageFaultException
+                0x080008ee        0x2 stm32f10x_it.o
+                0x080008ee                UsageFaultException
+ .text.DebugMonitor
+                0x080008f0        0x2 stm32f10x_it.o
+                0x080008f0                DebugMonitor
+ .text.SVCHandler
+                0x080008f2        0x2 stm32f10x_it.o
+                0x080008f2                SVCHandler
+ .text.PendSVC  0x080008f4        0x2 stm32f10x_it.o
+                0x080008f4                PendSVC
+ *fill*         0x080008f6        0x2 00
+ .text.SysTickHandler
+                0x080008f8       0x58 stm32f10x_it.o
+                0x080008f8                SysTickHandler
+ .text.WWDG_IRQHandler
+                0x08000950        0x2 stm32f10x_it.o
+                0x08000950                WWDG_IRQHandler
+ .text.PVD_IRQHandler
+                0x08000952        0x2 stm32f10x_it.o
+                0x08000952                PVD_IRQHandler
+ .text.TAMPER_IRQHandler
+                0x08000954        0x2 stm32f10x_it.o
+                0x08000954                TAMPER_IRQHandler
+ .text.RTC_IRQHandler
+                0x08000956        0x2 stm32f10x_it.o
+                0x08000956                RTC_IRQHandler
+ .text.FLASH_IRQHandler
+                0x08000958        0x2 stm32f10x_it.o
+                0x08000958                FLASH_IRQHandler
+ .text.RCC_IRQHandler
+                0x0800095a        0x2 stm32f10x_it.o
+                0x0800095a                RCC_IRQHandler
+ .text.EXTI0_IRQHandler
+                0x0800095c        0x2 stm32f10x_it.o
+                0x0800095c                EXTI0_IRQHandler
+ .text.EXTI1_IRQHandler
+                0x0800095e        0x2 stm32f10x_it.o
+                0x0800095e                EXTI1_IRQHandler
+ .text.EXTI2_IRQHandler
+                0x08000960        0x2 stm32f10x_it.o
+                0x08000960                EXTI2_IRQHandler
+ .text.EXTI3_IRQHandler
+                0x08000962        0x2 stm32f10x_it.o
+                0x08000962                EXTI3_IRQHandler
+ .text.EXTI4_IRQHandler
+                0x08000964        0x2 stm32f10x_it.o
+                0x08000964                EXTI4_IRQHandler
+ .text.DMA1_Channel1_IRQHandler
+                0x08000966        0x2 stm32f10x_it.o
+                0x08000966                DMA1_Channel1_IRQHandler
+ .text.DMA1_Channel2_IRQHandler
+                0x08000968        0x2 stm32f10x_it.o
+                0x08000968                DMA1_Channel2_IRQHandler
+ .text.DMA1_Channel3_IRQHandler
+                0x0800096a        0x2 stm32f10x_it.o
+                0x0800096a                DMA1_Channel3_IRQHandler
+ .text.DMA1_Channel4_IRQHandler
+                0x0800096c        0x2 stm32f10x_it.o
+                0x0800096c                DMA1_Channel4_IRQHandler
+ .text.DMA1_Channel5_IRQHandler
+                0x0800096e        0x2 stm32f10x_it.o
+                0x0800096e                DMA1_Channel5_IRQHandler
+ .text.DMA1_Channel6_IRQHandler
+                0x08000970        0x2 stm32f10x_it.o
+                0x08000970                DMA1_Channel6_IRQHandler
+ .text.DMA1_Channel7_IRQHandler
+                0x08000972        0x2 stm32f10x_it.o
+                0x08000972                DMA1_Channel7_IRQHandler
+ .text.ADC1_2_IRQHandler
+                0x08000974        0x2 stm32f10x_it.o
+                0x08000974                ADC1_2_IRQHandler
+ .text.USB_HP_CAN_TX_IRQHandler
+                0x08000976        0x2 stm32f10x_it.o
+                0x08000976                USB_HP_CAN_TX_IRQHandler
+ .text.USB_LP_CAN_RX0_IRQHandler
+                0x08000978        0x2 stm32f10x_it.o
+                0x08000978                USB_LP_CAN_RX0_IRQHandler
+ .text.CAN_RX1_IRQHandler
+                0x0800097a        0x2 stm32f10x_it.o
+                0x0800097a                CAN_RX1_IRQHandler
+ .text.CAN_SCE_IRQHandler
+                0x0800097c        0x2 stm32f10x_it.o
+                0x0800097c                CAN_SCE_IRQHandler
+ .text.EXTI9_5_IRQHandler
+                0x0800097e        0x2 stm32f10x_it.o
+                0x0800097e                EXTI9_5_IRQHandler
+ .text.TIM1_BRK_IRQHandler
+                0x08000980        0x2 stm32f10x_it.o
+                0x08000980                TIM1_BRK_IRQHandler
+ .text.TIM1_UP_IRQHandler
+                0x08000982        0x2 stm32f10x_it.o
+                0x08000982                TIM1_UP_IRQHandler
+ .text.TIM1_TRG_COM_IRQHandler
+                0x08000984        0x2 stm32f10x_it.o
+                0x08000984                TIM1_TRG_COM_IRQHandler
+ .text.TIM1_CC_IRQHandler
+                0x08000986        0x2 stm32f10x_it.o
+                0x08000986                TIM1_CC_IRQHandler
+ .text.TIM2_IRQHandler
+                0x08000988        0x2 stm32f10x_it.o
+                0x08000988                TIM2_IRQHandler
+ .text.TIM3_IRQHandler
+                0x0800098a        0x2 stm32f10x_it.o
+                0x0800098a                TIM3_IRQHandler
+ .text.TIM4_IRQHandler
+                0x0800098c        0x2 stm32f10x_it.o
+                0x0800098c                TIM4_IRQHandler
+ .text.I2C1_EV_IRQHandler
+                0x0800098e        0x2 stm32f10x_it.o
+                0x0800098e                I2C1_EV_IRQHandler
+ .text.I2C1_ER_IRQHandler
+                0x08000990        0x2 stm32f10x_it.o
+                0x08000990                I2C1_ER_IRQHandler
+ .text.I2C2_EV_IRQHandler
+                0x08000992        0x2 stm32f10x_it.o
+                0x08000992                I2C2_EV_IRQHandler
+ .text.I2C2_ER_IRQHandler
+                0x08000994        0x2 stm32f10x_it.o
+                0x08000994                I2C2_ER_IRQHandler
+ .text.SPI1_IRQHandler
+                0x08000996        0x2 stm32f10x_it.o
+                0x08000996                SPI1_IRQHandler
+ .text.SPI2_IRQHandler
+                0x08000998        0x2 stm32f10x_it.o
+                0x08000998                SPI2_IRQHandler
+ *fill*         0x0800099a        0x2 00
+ .text.USART1_IRQHandler
+                0x0800099c       0x30 stm32f10x_it.o
+                0x0800099c                USART1_IRQHandler
+ .text.USART2_IRQHandler
+                0x080009cc        0x2 stm32f10x_it.o
+                0x080009cc                USART2_IRQHandler
+ .text.USART3_IRQHandler
+                0x080009ce        0x2 stm32f10x_it.o
+                0x080009ce                USART3_IRQHandler
+ .text.EXTI15_10_IRQHandler
+                0x080009d0        0x2 stm32f10x_it.o
+                0x080009d0                EXTI15_10_IRQHandler
+ .text.RTCAlarm_IRQHandler
+                0x080009d2        0x2 stm32f10x_it.o
+                0x080009d2                RTCAlarm_IRQHandler
+ .text.USBWakeUp_IRQHandler
+                0x080009d4        0x2 stm32f10x_it.o
+                0x080009d4                USBWakeUp_IRQHandler
+ .text.TIM8_BRK_IRQHandler
+                0x080009d6        0x2 stm32f10x_it.o
+                0x080009d6                TIM8_BRK_IRQHandler
+ .text.TIM8_UP_IRQHandler
+                0x080009d8        0x2 stm32f10x_it.o
+                0x080009d8                TIM8_UP_IRQHandler
+ .text.TIM8_TRG_COM_IRQHandler
+                0x080009da        0x2 stm32f10x_it.o
+                0x080009da                TIM8_TRG_COM_IRQHandler
+ .text.TIM8_CC_IRQHandler
+                0x080009dc        0x2 stm32f10x_it.o
+                0x080009dc                TIM8_CC_IRQHandler
+ .text.ADC3_IRQHandler
+                0x080009de        0x2 stm32f10x_it.o
+                0x080009de                ADC3_IRQHandler
+ .text.FSMC_IRQHandler
+                0x080009e0        0x2 stm32f10x_it.o
+                0x080009e0                FSMC_IRQHandler
+ .text.SDIO_IRQHandler
+                0x080009e2        0x2 stm32f10x_it.o
+                0x080009e2                SDIO_IRQHandler
+ .text.TIM5_IRQHandler
+                0x080009e4        0x2 stm32f10x_it.o
+                0x080009e4                TIM5_IRQHandler
+ .text.SPI3_IRQHandler
+                0x080009e6        0x2 stm32f10x_it.o
+                0x080009e6                SPI3_IRQHandler
+ .text.UART4_IRQHandler
+                0x080009e8        0x2 stm32f10x_it.o
+                0x080009e8                UART4_IRQHandler
+ .text.UART5_IRQHandler
+                0x080009ea        0x2 stm32f10x_it.o
+                0x080009ea                UART5_IRQHandler
+ .text.TIM6_IRQHandler
+                0x080009ec        0x2 stm32f10x_it.o
+                0x080009ec                TIM6_IRQHandler
+ .text.TIM7_IRQHandler
+                0x080009ee        0x2 stm32f10x_it.o
+                0x080009ee                TIM7_IRQHandler
+ .text.DMA2_Channel1_IRQHandler
+                0x080009f0        0x2 stm32f10x_it.o
+                0x080009f0                DMA2_Channel1_IRQHandler
+ .text.DMA2_Channel2_IRQHandler
+                0x080009f2        0x2 stm32f10x_it.o
+                0x080009f2                DMA2_Channel2_IRQHandler
+ .text.DMA2_Channel3_IRQHandler
+                0x080009f4        0x2 stm32f10x_it.o
+                0x080009f4                DMA2_Channel3_IRQHandler
+ .text.DMA2_Channel4_5_IRQHandler
+                0x080009f6        0x2 stm32f10x_it.o
+                0x080009f6                DMA2_Channel4_5_IRQHandler
+ .text.NVIC_PriorityGroupConfig
+                0x080009f8       0x14 ./../../lib\libhardware.a(misc.o)
+                0x080009f8                NVIC_PriorityGroupConfig
+ .text.NVIC_Init
+                0x08000a0c       0x64 ./../../lib\libhardware.a(misc.o)
+                0x08000a0c                NVIC_Init
+ .text.FLASH_SetLatency
+                0x08000a70       0x14 ./../../lib\libhardware.a(stm32f10x_flash.o)
+                0x08000a70                FLASH_SetLatency
+ .text.FLASH_PrefetchBufferCmd
+                0x08000a84       0x18 ./../../lib\libhardware.a(stm32f10x_flash.o)
+                0x08000a84                FLASH_PrefetchBufferCmd
+ .text.GPIO_Init
+                0x08000a9c       0xb2 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+                0x08000a9c                GPIO_Init
+ *fill*         0x08000b4e        0x2 00
+ .text.RCC_DeInit
+                0x08000b50       0x48 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+                0x08000b50                RCC_DeInit
+ .text.RCC_HSEConfig
+                0x08000b98       0x38 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+                0x08000b98                RCC_HSEConfig
+ .text.RCC_PLLConfig
+                0x08000bd0       0x18 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+                0x08000bd0                RCC_PLLConfig
+ .text.RCC_PLLCmd
+                0x08000be8        0xc ./../../lib\libhardware.a(stm32f10x_rcc.o)
+                0x08000be8                RCC_PLLCmd
+ .text.RCC_SYSCLKConfig
+                0x08000bf4       0x14 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+                0x08000bf4                RCC_SYSCLKConfig
+ .text.RCC_GetSYSCLKSource
+                0x08000c08       0x10 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+                0x08000c08                RCC_GetSYSCLKSource
+ .text.RCC_HCLKConfig
+                0x08000c18       0x14 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+                0x08000c18                RCC_HCLKConfig
+ .text.RCC_PCLK1Config
+                0x08000c2c       0x14 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+                0x08000c2c                RCC_PCLK1Config
+ .text.RCC_PCLK2Config
+                0x08000c40       0x14 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+                0x08000c40                RCC_PCLK2Config
+ .text.RCC_ADCCLKConfig
+                0x08000c54       0x14 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+                0x08000c54                RCC_ADCCLKConfig
+ .text.RCC_GetClocksFreq
+                0x08000c68       0xa0 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+                0x08000c68                RCC_GetClocksFreq
+ .text.RCC_APB2PeriphClockCmd
+                0x08000d08       0x1c ./../../lib\libhardware.a(stm32f10x_rcc.o)
+                0x08000d08                RCC_APB2PeriphClockCmd
+ .text.RCC_APB1PeriphClockCmd
+                0x08000d24       0x1c ./../../lib\libhardware.a(stm32f10x_rcc.o)
+                0x08000d24                RCC_APB1PeriphClockCmd
+ .text.RCC_GetFlagStatus
+                0x08000d40       0x2c ./../../lib\libhardware.a(stm32f10x_rcc.o)
+                0x08000d40                RCC_GetFlagStatus
+ .text.RCC_WaitForHSEStartUp
+                0x08000d6c       0x2c ./../../lib\libhardware.a(stm32f10x_rcc.o)
+                0x08000d6c                RCC_WaitForHSEStartUp
+ .text.TIM_TimeBaseInit
+                0x08000d98       0x54 ./../../lib\libhardware.a(stm32f10x_tim.o)
+                0x08000d98                TIM_TimeBaseInit
+ .text.TIM_TimeBaseStructInit
+                0x08000dec       0x12 ./../../lib\libhardware.a(stm32f10x_tim.o)
+                0x08000dec                TIM_TimeBaseStructInit
+ .text.TIM_Cmd  0x08000dfe       0x1c ./../../lib\libhardware.a(stm32f10x_tim.o)
+                0x08000dfe                TIM_Cmd
+ .text.TIM_SetCounter
+                0x08000e1a        0x4 ./../../lib\libhardware.a(stm32f10x_tim.o)
+                0x08000e1a                TIM_SetCounter
+ .text.TIM_GetCounter
+                0x08000e1e        0x6 ./../../lib\libhardware.a(stm32f10x_tim.o)
+                0x08000e1e                TIM_GetCounter
+ .text.USART_Init
+                0x08000e24       0x9c ./../../lib\libhardware.a(stm32f10x_usart.o)
+                0x08000e24                USART_Init
+ .text.USART_Cmd
+                0x08000ec0       0x1c ./../../lib\libhardware.a(stm32f10x_usart.o)
+                0x08000ec0                USART_Cmd
+ .text.USART_ITConfig
+                0x08000edc       0x36 ./../../lib\libhardware.a(stm32f10x_usart.o)
+                0x08000edc                USART_ITConfig
+ .text.USART_SendData
+                0x08000f12        0x8 ./../../lib\libhardware.a(stm32f10x_usart.o)
+                0x08000f12                USART_SendData
+ .text.USART_ReceiveData
+                0x08000f1a        0x8 ./../../lib\libhardware.a(stm32f10x_usart.o)
+                0x08000f1a                USART_ReceiveData
+ .text.USART_GetITStatus
+                0x08000f22       0x4a ./../../lib\libhardware.a(stm32f10x_usart.o)
+                0x08000f22                USART_GetITStatus
+ *(.rodata)
+ *(.rodata*)
+ .rodata.str1.1
+                0x08000f6c       0xe3 ADNS2610.o
+ *fill*         0x0800104f        0x1 00
+ .rodata.SystemFrequency
+                0x08001050        0x4 ./../../lib\libcmsis.a(system_stm32f10x.o)
+                0x08001050                SystemFrequency
+ *(.glue_7)
+ .glue_7        0x00000000        0x0 linker stubs
+ *(.glue_7t)
+ .glue_7t       0x00000000        0x0 linker stubs
+ *(.gnu*)
+ *(.gcc*)
+                0x08001054                . = ALIGN (0x4)
+                0x08001054                _text_end_ = .
+                0x08001054                _ram_vec_load_start_ = _text_end_
+
+.vfp11_veneer   0x08001054        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x08001054        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.ram_vec        0x20000000        0x0 load address 0x08001054
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                _ram_vec_start_ = .
+ *(.ram_vec)
+                0x20000000                _ram_vec_end_ = (. ALIGN 0x4)
+                0x08001054                _ram_vec_load_end_ = (_ram_vec_load_start_ + SIZEOF (.ram_vec))
+                0x08001054                _data_load_start_ = _ram_vec_load_end_
+
+.data           0x20000000       0x14 load address 0x08001054
+                0x20000000                . = ALIGN (0x4)
+                0x20000000                _data_start_ = .
+ *(.data)
+ *(.data*)
+ .data.ADCPrescTable
+                0x20000000        0x4 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .data.APBAHBPrescTable
+                0x20000004       0x10 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+                0x20000014                _data_end_ = (. ALIGN 0x4)
+                0x08001068                _data_load_end_ = (_data_load_start_ + SIZEOF (.data))
+                0x08001068                _fast_load_start_ = _data_load_end_
+
+.fast           0x20000014        0x0 load address 0x08001068
+                0x20000014                . = ALIGN (0x4)
+                0x20000014                _fast_start_ = .
+ *(.fast)
+ *(.fast*)
+                0x20000014                _fast_end_ = (. ALIGN 0x4)
+                0x08001068                _fast_load_end_ = (_fast_load_start_ + SIZEOF (.fast))
+                0x08001068                _flash_end_ = _fast_load_end_
+
+.bss            0x20000014      0x668 load address 0x08001068
+                0x20000014                . = ALIGN (0x4)
+                0x20000014                _bss_start_ = .
+ *(.bss)
+ *(.bss*)
+ .bss.imageBuffer
+                0x20000014      0x144 ADNS2610.o
+ .bss.USART_DBG_buffer_ptr_put
+                0x20000158        0x2 USART_io.o
+ .bss.USART_DBG_buffer_ptr_get
+                0x2000015a        0x2 USART_io.o
+ .bss.USART1_TX_ring_buffer
+                0x2000015c      0x400 USART_io.o
+ .bss.sout.3470
+                0x2000055c      0x100 USART_io.o
+ .bss.USART_DBG_buffer_data_size
+                0x2000065c        0x2 USART_io.o
+ .bss.flip.3242
+                0x2000065e        0x1 stm32f10x_it.o
+ *fill*         0x2000065f        0x1 00
+ .bss._sysTicks
+                0x20000660        0x4 stm32f10x_it.o
+                0x20000660                _sysTicks
+                0x20000664                _bss_end_ = .
+ COMMON         0x20000664       0x18 hw_config.o
+                0x20000664                HSEStartUpStatus
+                0x20000668                RCC_Clocks
+
+DISCARD
+ libc.a(*)
+ libm.a(*)
+ libgcc.a(*)
+OUTPUT(../../out/image.elf elf32-littlearm)
+
+.debug_abbrev   0x00000000     0x1517
+ .debug_abbrev  0x00000000      0x21d ADNS2610.o
+ .debug_abbrev  0x0000021d      0x246 USART_io.o
+ .debug_abbrev  0x00000463       0xf5 crt.o
+ .debug_abbrev  0x00000558      0x1dd hw_config.o
+ .debug_abbrev  0x00000735       0xaa main.o
+ .debug_abbrev  0x000007df      0x125 stm32f10x_it.o
+ .debug_abbrev  0x00000904      0x12a ./../../lib\libhardware.a(misc.o)
+ .debug_abbrev  0x00000a2e      0x211 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .debug_abbrev  0x00000c3f      0x1dd ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .debug_abbrev  0x00000e1c      0x1b5 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .debug_abbrev  0x00000fd1      0x27d ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .debug_abbrev  0x0000124e      0x1b0 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .debug_abbrev  0x000013fe      0x119 ./../../lib\libcmsis.a(system_stm32f10x.o)
+
+.debug_info     0x00000000     0x6ee6
+ .debug_info    0x00000000      0x7a3 ADNS2610.o
+ .debug_info    0x000007a3      0x963 USART_io.o
+ .debug_info    0x00001106      0x256 crt.o
+ .debug_info    0x0000135c      0x822 hw_config.o
+ .debug_info    0x00001b7e      0x136 main.o
+ .debug_info    0x00001cb4      0x7db stm32f10x_it.o
+ .debug_info    0x0000248f      0x508 ./../../lib\libhardware.a(misc.o)
+ .debug_info    0x00002997      0x751 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .debug_info    0x000030e8      0x6cf ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .debug_info    0x000037b7      0x8d4 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .debug_info    0x0000408b     0x21e8 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .debug_info    0x00006273      0x9c9 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .debug_info    0x00006c3c      0x2aa ./../../lib\libcmsis.a(system_stm32f10x.o)
+
+.debug_line     0x00000000     0x3894
+ .debug_line    0x00000000      0x526 ADNS2610.o
+ .debug_line    0x00000526      0x588 USART_io.o
+ .debug_line    0x00000aae      0x26a crt.o
+ .debug_line    0x00000d18      0x438 hw_config.o
+ .debug_line    0x00001150      0x41b main.o
+ .debug_line    0x0000156b      0x715 stm32f10x_it.o
+ .debug_line    0x00001c80      0x19b ./../../lib\libhardware.a(misc.o)
+ .debug_line    0x00001e1b      0x3d2 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .debug_line    0x000021ed      0x324 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .debug_line    0x00002511      0x3fa ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .debug_line    0x0000290b      0xa55 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .debug_line    0x00003360      0x3d0 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .debug_line    0x00003730      0x164 ./../../lib\libcmsis.a(system_stm32f10x.o)
+
+.debug_macinfo  0x00000000   0x2f85ef
+ .debug_macinfo
+                0x00000000    0x44484 ADNS2610.o
+ .debug_macinfo
+                0x00044484    0x43ecc USART_io.o
+ .debug_macinfo
+                0x00088350    0x408b9 crt.o
+ .debug_macinfo
+                0x000c8c09    0x4427b hw_config.o
+ .debug_macinfo
+                0x0010ce84    0x42a7b main.o
+ .debug_macinfo
+                0x0014f8ff    0x42199 stm32f10x_it.o
+ .debug_macinfo
+                0x00191a98    0x31022 ./../../lib\libhardware.a(misc.o)
+ .debug_macinfo
+                0x001c2aba    0x32452 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .debug_macinfo
+                0x001f4f0c    0x345c3 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .debug_macinfo
+                0x002294cf    0x33140 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .debug_macinfo
+                0x0025c60f    0x3723f ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .debug_macinfo
+                0x0029384e    0x34282 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .debug_macinfo
+                0x002c7ad0    0x30b1f ./../../lib\libcmsis.a(system_stm32f10x.o)
+
+.debug_frame    0x00000000     0x1550
+ .debug_frame   0x00000000      0x12c ADNS2610.o
+ .debug_frame   0x0000012c      0x114 USART_io.o
+ .debug_frame   0x00000240       0x44 crt.o
+ .debug_frame   0x00000284       0x3c hw_config.o
+ .debug_frame   0x000002c0       0x48 main.o
+ .debug_frame   0x00000308      0x468 stm32f10x_it.o
+ .debug_frame   0x00000770       0x60 ./../../lib\libhardware.a(misc.o)
+ .debug_frame   0x000007d0      0x1f8 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .debug_frame   0x000009c8      0x164 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .debug_frame   0x00000b2c      0x21c ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .debug_frame   0x00000d48      0x60c ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .debug_frame   0x00001354      0x1d8 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .debug_frame   0x0000152c       0x24 ./../../lib\libcmsis.a(system_stm32f10x.o)
+
+.debug_loc      0x00000000     0x3695
+ .debug_loc     0x00000000      0x33d ADNS2610.o
+ .debug_loc     0x0000033d      0x569 USART_io.o
+ .debug_loc     0x000008a6       0xe7 crt.o
+ .debug_loc     0x0000098d       0x20 hw_config.o
+ .debug_loc     0x000009ad       0x6c main.o
+ .debug_loc     0x00000a19       0x20 stm32f10x_it.o
+ .debug_loc     0x00000a39       0xfe ./../../lib\libhardware.a(misc.o)
+ .debug_loc     0x00000b37      0x63e ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .debug_loc     0x00001175      0x417 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .debug_loc     0x0000158c      0x52c ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .debug_loc     0x00001ab8     0x1645 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .debug_loc     0x000030fd      0x540 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .debug_loc     0x0000363d       0x58 ./../../lib\libcmsis.a(system_stm32f10x.o)
+
+.debug_pubnames
+                0x00000000     0x1a9a
+ .debug_pubnames
+                0x00000000       0xbc ADNS2610.o
+ .debug_pubnames
+                0x000000bc       0xba USART_io.o
+ .debug_pubnames
+                0x00000176       0x45 crt.o
+ .debug_pubnames
+                0x000001bb       0x58 hw_config.o
+ .debug_pubnames
+                0x00000213       0x33 main.o
+ .debug_pubnames
+                0x00000246      0x64a stm32f10x_it.o
+ .debug_pubnames
+                0x00000890       0x89 ./../../lib\libhardware.a(misc.o)
+ .debug_pubnames
+                0x00000919      0x26e ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .debug_pubnames
+                0x00000b87      0x19d ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .debug_pubnames
+                0x00000d24      0x2c4 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .debug_pubnames
+                0x00000fe8      0x7b0 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .debug_pubnames
+                0x00001798      0x25f ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .debug_pubnames
+                0x000019f7       0xa3 ./../../lib\libcmsis.a(system_stm32f10x.o)
+
+.debug_pubtypes
+                0x00000000      0x66f
+ .debug_pubtypes
+                0x00000000       0xa0 ADNS2610.o
+ .debug_pubtypes
+                0x000000a0       0xed USART_io.o
+ .debug_pubtypes
+                0x0000018d       0x32 crt.o
+ .debug_pubtypes
+                0x000001bf       0xb5 hw_config.o
+ .debug_pubtypes
+                0x00000274       0x1f main.o
+ .debug_pubtypes
+                0x00000293       0x38 stm32f10x_it.o
+ .debug_pubtypes
+                0x000002cb       0x54 ./../../lib\libhardware.a(misc.o)
+ .debug_pubtypes
+                0x0000031f       0x6c ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .debug_pubtypes
+                0x0000038b       0xab ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .debug_pubtypes
+                0x00000436       0x81 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .debug_pubtypes
+                0x000004b7       0xd8 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .debug_pubtypes
+                0x0000058f       0xc1 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .debug_pubtypes
+                0x00000650       0x1f ./../../lib\libcmsis.a(system_stm32f10x.o)
+
+.debug_aranges  0x00000000      0xa40
+ .debug_aranges
+                0x00000000       0x68 ADNS2610.o
+ .debug_aranges
+                0x00000068       0x60 USART_io.o
+ .debug_aranges
+                0x000000c8       0x28 crt.o
+ .debug_aranges
+                0x000000f0       0x28 hw_config.o
+ .debug_aranges
+                0x00000118       0x30 main.o
+ .debug_aranges
+                0x00000148      0x240 stm32f10x_it.o
+ .debug_aranges
+                0x00000388       0x40 ./../../lib\libhardware.a(misc.o)
+ .debug_aranges
+                0x000003c8       0xd0 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .debug_aranges
+                0x00000498       0xa8 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .debug_aranges
+                0x00000540      0x118 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .debug_aranges
+                0x00000658      0x2d8 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .debug_aranges
+                0x00000930       0xf0 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .debug_aranges
+                0x00000a20       0x20 ./../../lib\libcmsis.a(system_stm32f10x.o)
+
+.debug_ranges   0x00000000      0xbc0
+ .debug_ranges  0x00000000       0x98 ADNS2610.o
+ .debug_ranges  0x00000098       0x58 USART_io.o
+ .debug_ranges  0x000000f0       0x20 crt.o
+ .debug_ranges  0x00000110       0x58 hw_config.o
+ .debug_ranges  0x00000168       0x28 main.o
+ .debug_ranges  0x00000190      0x238 stm32f10x_it.o
+ .debug_ranges  0x000003c8       0x38 ./../../lib\libhardware.a(misc.o)
+ .debug_ranges  0x00000400      0x108 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .debug_ranges  0x00000508       0xa0 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .debug_ranges  0x000005a8      0x110 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .debug_ranges  0x000006b8      0x3c0 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .debug_ranges  0x00000a78       0xe8 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .debug_ranges  0x00000b60       0x60 ./../../lib\libcmsis.a(system_stm32f10x.o)
+
+.debug_str      0x00000000     0x2b38
+ .debug_str     0x00000000      0x492 ADNS2610.o
+                                0x4d9 (size before relaxing)
+ .debug_str     0x00000492      0x601 USART_io.o
+                                0x8a2 (size before relaxing)
+ .debug_str     0x00000a93       0xf7 crt.o
+                                0x202 (size before relaxing)
+ .debug_str     0x00000b8a      0x17b hw_config.o
+                                0x7b8 (size before relaxing)
+ .debug_str     0x00000d05       0x24 main.o
+                                0x137 (size before relaxing)
+ .debug_str     0x00000d29      0x52a stm32f10x_it.o
+                                0x6a6 (size before relaxing)
+ .debug_str     0x00001253      0x138 ./../../lib\libhardware.a(misc.o)
+                                0x32f (size before relaxing)
+ .debug_str     0x0000138b      0x37b ./../../lib\libhardware.a(stm32f10x_flash.o)
+                                0x4ea (size before relaxing)
+ .debug_str     0x00001706      0x228 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+                                0x488 (size before relaxing)
+ .debug_str     0x0000192e      0x38d ./../../lib\libhardware.a(stm32f10x_rcc.o)
+                                0x591 (size before relaxing)
+ .debug_str     0x00001cbb      0xa3a ./../../lib\libhardware.a(stm32f10x_tim.o)
+                                0xd69 (size before relaxing)
+ .debug_str     0x000026f5      0x359 ./../../lib\libhardware.a(stm32f10x_usart.o)
+                                0x5ef (size before relaxing)
+ .debug_str     0x00002a4e       0xea ./../../lib\libcmsis.a(system_stm32f10x.o)
+                                0x218 (size before relaxing)
+
+.comment        0x00000000       0x53
+ .comment       0x00000000       0x53 ADNS2610.o
+                                 0x54 (size before relaxing)
+ .comment       0x00000000       0x54 USART_io.o
+ .comment       0x00000000       0x54 crt.o
+ .comment       0x00000000       0x54 hw_config.o
+ .comment       0x00000000       0x54 main.o
+ .comment       0x00000000       0x54 stm32f10x_it.o
+ .comment       0x00000000       0x54 ./../../lib\libhardware.a(misc.o)
+ .comment       0x00000000       0x54 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .comment       0x00000000       0x54 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .comment       0x00000000       0x54 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .comment       0x00000000       0x54 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .comment       0x00000000       0x54 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .comment       0x00000000       0x54 ./../../lib\libcmsis.a(system_stm32f10x.o)
+
+.ARM.attributes
+                0x00000000       0x31
+ .ARM.attributes
+                0x00000000       0x31 ADNS2610.o
+ .ARM.attributes
+                0x00000031       0x31 USART_io.o
+ .ARM.attributes
+                0x00000062       0x31 crt.o
+ .ARM.attributes
+                0x00000093       0x31 hw_config.o
+ .ARM.attributes
+                0x000000c4       0x31 main.o
+ .ARM.attributes
+                0x000000f5       0x31 stm32f10x_it.o
+ .ARM.attributes
+                0x00000126       0x31 ./../../lib\libhardware.a(misc.o)
+ .ARM.attributes
+                0x00000157       0x31 ./../../lib\libhardware.a(stm32f10x_flash.o)
+ .ARM.attributes
+                0x00000188       0x31 ./../../lib\libhardware.a(stm32f10x_gpio.o)
+ .ARM.attributes
+                0x000001b9       0x31 ./../../lib\libhardware.a(stm32f10x_rcc.o)
+ .ARM.attributes
+                0x000001ea       0x31 ./../../lib\libhardware.a(stm32f10x_tim.o)
+ .ARM.attributes
+                0x0000021b       0x31 ./../../lib\libhardware.a(stm32f10x_usart.o)
+ .ARM.attributes
+                0x0000024c       0x31 ./../../lib\libcmsis.a(system_stm32f10x.o)
